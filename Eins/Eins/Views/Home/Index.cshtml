@@ -2,36 +2,82 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 <div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">User</div>
-        <div class="col-4"><input type="text" id="userInput" /></div>
-    </div>
-    <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
+    <div id="Lobby">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2">User</div>
+            <div class="col-4"><input type="text" id="userInput" /></div>
+        </div>
+        <div class="row">
+            <div class="col-2">RoomID</div>
+            <div class="col-4"><input type="text" id="messageInput" /></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="button" id="newbutton" value="New Room" />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input type="button" id="joinButton" value="Join Room" />
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <hr />
+    <div id="waitingroom" style="display: none;">
+        <div class="row">
+            <div class="col-8" id="roomcode"></div>
+        </div>
+
+        <div class="row">&nbsp;</div>
+        <div class="PlayerList">
+            <ol id="Players">
+            </ol>
+        </div>
+
+
+
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-8">
+                <input type="button" id="dealbutton" value="deal" />
+            </div>
+        </div>
+    </div>
+    <div id="gametable" style="display: none; background-color: white;">
+        <div class="row">
+            <div>
+                <div class="Card" id="discardPile">&nbsp;</div>
+                <div class="Card CardBack" id="deck">&nbsp;</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+        <div id="MyHand" class="flex-container">
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="WildColorButtons" class="flex-container">
+                <div class="WildColorButton" id="pickRed" style="background-color: #ff5555;" onclick="WildColorClick('Red')" />
+                <div class="WildColorButton" id="pickYellow" style="background-color: #ffaa00;" onclick="WildColorClick('Yellow')" />
+                <div class="WildColorButton" id="pickGreen" style="background-color: #55aa55;" onclick="WildColorClick('Green')" />
+                <div class="WildColorButton" id="pickBlue" style="background-color: #5555ff;" onclick="WildColorClick('Blue')" />
+            </div>
+        </div>
+
     </div>
 </div>
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
-    </div>
-</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/eins.js"></script>

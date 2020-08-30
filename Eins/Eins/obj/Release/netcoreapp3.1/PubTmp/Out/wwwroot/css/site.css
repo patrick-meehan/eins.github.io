@@ -1,0 +1,145 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.Card{
+background: url("/images/cards_deck.png");
+width: 74px;
+height: 110px;
+padding: 5px 5px 5px 5px;
+margin:3px;
+}
+
+.Card:hover{
+    transform: scale(1.1);
+    transform: translateY(-10px);
+}
+
+.CardRed{
+    
+    background-position-y:0px;
+   
+}
+.CardBlue{
+    background-position-y: -329px;
+}
+.CardGreen{
+    background-position-y: -219px;
+}
+.CardYellow{
+    background-position-y: -109px;
+}
+
+.Card0{
+    background-position-x: -0px;
+}
+.Card1 {
+    background-position-x: -73px;
+}
+.Card2 {
+    background-position-x: -146px;
+}
+.Card3 {
+    background-position-x: -219px;
+}
+.Card4 {
+    background-position-x: -292px;
+}
+.Card5 {
+    background-position-x: -365px;
+}
+.Card6 {
+    background-position-x: -438px;
+}
+.Card7 {
+    background-position-x: -512px;
+}
+.Card8 {
+    background-position-x: -584px;
+}
+.Card9 {
+    background-position-x: -657px;
+}
+.CardS {
+    background-position-x: -731px;
+}
+.CardR {
+    background-position-x: -804px;
+}
+.CardD
+{
+    background-position-x: -877px;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}

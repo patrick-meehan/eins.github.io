@@ -18,3 +18,4 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\D
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Debug\netcoreapp3.1\EinsService.dll
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Debug\netcoreapp3.1\EinsService.pdb
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Debug\netcoreapp3.1\EinsService.genruntimeconfig.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\EinsASP - Web Deploy\profile.arm.json

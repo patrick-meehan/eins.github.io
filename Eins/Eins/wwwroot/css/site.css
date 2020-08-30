@@ -69,3 +69,140 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.Card{
+background: url("/images/cards_deck.png");
+width: 74px;
+height: 110px;
+padding: 5px 5px 5px 5px;
+margin:3px;
+}
+
+.Card:hover{
+    transform: scale(1.1);
+    transform: translateY(-10px);
+}
+
+.CardBack {
+    background-position-y: -441px;
+    background-position-x: 0px;
+
+}
+.CardW {
+    background-position-x: -950px;
+}
+
+.Card-4 {
+    background-position-x: -1023px;
+}
+
+.CardBlack{
+    background-position-y:-441px;
+}
+
+.CardRed{
+    background-position-y:0px;
+}
+.CardBlue{
+    background-position-y: -331px;
+}
+.CardGreen{
+    background-position-y: -220px;
+}
+.CardYellow{
+    background-position-y: -110px;
+}
+
+.Card0{
+    background-position-x: -0px;
+}
+.Card1 {
+    background-position-x: -73px;
+}
+.Card2 {
+    background-position-x: -146px;
+}
+.Card3 {
+    background-position-x: -219px;
+}
+.Card4 {
+    background-position-x: -292px;
+}
+.Card5 {
+    background-position-x: -365px;
+}
+.Card6 {
+    background-position-x: -438px;
+}
+.Card7 {
+    background-position-x: -512px;
+}
+.Card8 {
+    background-position-x: -585px;
+}
+.Card9 {
+    background-position-x: -658px;
+}
+.CardS {
+    background-position-x: -731px;
+}
+.CardR {
+    background-position-x: -804px;
+}
+.CardD
+{
+    background-position-x: -877px;
+}
+
+
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.WildColorButton {
+    height: 30px;
+    width: 20px;
+    padding: 5px 5px 5px 5px;
+
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }

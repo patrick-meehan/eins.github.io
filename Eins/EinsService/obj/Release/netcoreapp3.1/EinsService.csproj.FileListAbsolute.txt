@@ -1,0 +1,21 @@
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\appsettings.Development.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\appsettings.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\Properties\ServiceDependencies\EinsASP - Web Deploy\profile.arm.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\EinsService.exe
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\EinsService.deps.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\EinsService.runtimeconfig.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\EinsService.runtimeconfig.dev.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\EinsService.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\bin\Release\netcoreapp3.1\EinsService.pdb
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.csprojAssemblyReference.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.AssemblyInfoInputs.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.AssemblyInfo.cs
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.csproj.CoreCompileInputs.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.RazorTargetAssemblyInfo.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\staticwebassets\EinsService.StaticWebAssets.Manifest.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\staticwebassets\EinsService.StaticWebAssets.xml
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.pdb
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\EinsService\obj\Release\netcoreapp3.1\EinsService.genruntimeconfig.cache

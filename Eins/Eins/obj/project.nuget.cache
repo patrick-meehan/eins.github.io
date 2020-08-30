@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Pp8OZynpuLSlQfrIDTZZZp6Q59WHA4QkCswjrguQsURKjLbI4j4FuvAUh0la+rQeQ8q703lZr1FGxomEUvaKjw==",
+  "dgSpecHash": "7ZnRGbf8NC8LaDPwNEUD3Od6QMHJFc979bqEBQFDSvjoCEBQfYNHVjoVWlGGIruy4XcQcaw8GpT2+lUYKaOuAw==",
   "success": true,
   "projectFilePath": "C:\\Users\\patri\\source\\repos\\patrick-meehan\\eins.github.io\\Eins\\Eins\\Eins.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\patri\\.nuget\\packages\\jquery\\3.5.1\\jquery.3.5.1.nupkg.sha512"
+  ],
   "logs": []
 }
