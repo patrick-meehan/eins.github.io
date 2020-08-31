@@ -37,3 +37,12 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\ne
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Eins.csproj.CoreCompileInputs.cache
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Eins.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.Azure.SignalR.Common.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.Azure.SignalR.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.Azure.SignalR.Protocols.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

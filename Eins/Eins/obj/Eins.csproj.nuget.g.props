@@ -16,6 +16,7 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Users\patri\.nuget\packages\newtonsoft.json\10.0.1</PkgNewtonsoft_Json>
     <PkgjQuery Condition=" '$(PkgjQuery)' == '' ">C:\Users\patri\.nuget\packages\jquery\3.5.1</PkgjQuery>
   </PropertyGroup>
 </Project>

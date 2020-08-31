@@ -38,6 +38,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.Azure.SignalR": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
             "jQuery": {
               "target": "Package",
               "version": "[3.5.1, )"

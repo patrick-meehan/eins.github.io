@@ -25,7 +25,9 @@ namespace Eins
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSignalR();
+            //TODO: This line below is for local version of SignalR
+            //services.AddSignalR();
+            services.AddSignalR().AddAzureSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +44,10 @@ namespace Eins
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            //TODO: This line for local app.UseStaticFiles();
+
+            app.UseFileServer();
+
 
             app.UseRouting();
 

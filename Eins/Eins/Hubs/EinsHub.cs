@@ -119,7 +119,6 @@ namespace Eins.Hubs
 
             UpdateCanPlayDraw4(roomid);
             Clients.Client(player.ID).SendAsync("TurnOver");
-            //TODO: Now we need to process the card actions
             switch (played.Face)
             {
                 case "R":

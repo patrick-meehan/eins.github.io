@@ -67,11 +67,25 @@
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div id="WildColorButtons" class="flex-container">
-                <div class="WildColorButton" id="pickRed" style="background-color: #ff5555;" onclick="WildColorClick('Red')" />
-                <div class="WildColorButton" id="pickYellow" style="background-color: #ffaa00;" onclick="WildColorClick('Yellow')" />
-                <div class="WildColorButton" id="pickGreen" style="background-color: #55aa55;" onclick="WildColorClick('Green')" />
-                <div class="WildColorButton" id="pickBlue" style="background-color: #5555ff;" onclick="WildColorClick('Blue')" />
+            <div id="WildColorButtons">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="WildColorButton" id="pickRed" style="background-color: #ff5555;" onclick="WildColorClick('Red')" />
+                        </td>
+                        <td>
+                            <div class="WildColorButton" id="pickYellow" style="background-color: #ffaa00;" onclick="WildColorClick('Yellow')" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="WildColorButton" id="pickGreen" style="background-color: #55aa55;" onclick="WildColorClick('Green')" />
+                        </td>
+                        <td>
+                            <div class="WildColorButton" id="pickBlue" style="background-color: #5555ff;" onclick="WildColorClick('Blue')" />
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
 
