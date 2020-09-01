@@ -18,7 +18,6 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\ne
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Eins.TagHelpers.input.cache
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Eins.TagHelpers.output.cache
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Eins.RazorCoreGenerate.cache
-C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -46,3 +45,7 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\ne
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\EinsAppService - Web Deploy\profile.arm.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.EinsAppService - Web Deploy.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\EinsAppService - Web Deploy\signalr1.arm.json

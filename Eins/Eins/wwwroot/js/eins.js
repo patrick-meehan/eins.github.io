@@ -8,6 +8,11 @@ var CanPlayDraw4 = false;
 var YoureUp = false;
 var wildcolor = '';
 var playedwild = '';
+var hasDrawn = false;
+var leftplayer = '';
+var rightplayer = '';
+var noticeup = false;
+var tablelocked = false;
 //TODO: Setup YoureUP logic
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
@@ -26,17 +31,47 @@ connection.on("UpdateDiscard", function (card) {
     let dp = document.getElementById("discardPile");
     dp.className = card.cardClass;
 
+
 })
 
 connection.on("UpdateCanPlayDraw4", function (canplay) { CanPlayDraw4 = canplay; });
 
-connection.on("StartGame", function () {
+connection.on("StartGame", function (left, right) {
     let waiting = document.getElementById("waitingroom");
     waiting.style = "display: none;";
+    let rl = document.getElementById("tableroomid");
+    rl.innerText = roomid;
+    leftplayer = left;
+    document.getElementById("leftplayer").innerText = leftplayer;
+    rightplayer = right;
+    document.getElementById("rightplayer").innerText = rightplayer;
     let tbl = document.getElementById("gametable");
-    tbl.style = "displayL normal;";
+    tbl.style = "display: normal;";
+    tablelocked = true;
 });
 
+connection.on("EndGame", function (winnote) {
+    ShowNotice(winnote);
+    setTimeout(CleanUp, 3500);
+});
+
+function CleanUp() {
+    let hand = document.getElementById("MyHand");
+    hand.textContent = ''; //clear the hand
+    //reset to defaults
+    CanPlayDraw4 = false;
+    YoureUp = false;
+    wildcolor = '';
+    playedwild = '';
+    hasDrawn = false;
+    leftplayer = '';
+    rightplayer = '';
+    let waiting = document.getElementById("waitingroom");
+    waiting.style = "display: block;";
+    let tbl = document.getElementById("gametable");
+    tbl.style = "display: none;";
+    tablelocked = false;
+}
 
 connection.on("TurnOver", function () {
     YoureUp = false;
@@ -47,12 +82,35 @@ connection.on("TurnOver", function () {
 
 connection.on("YourTurn", function () {
     YoureUp = true;
+    hasDrawn = false;
     let tbl = document.getElementById("MyHand");
     tbl.style.backgroundColor = "grey";
-
 });
 
+connection.on("Notify", function (notification) {
+    ShowNotice(notification);
+});
 
+function ShowNotice(note) {
+    noticeup = true;
+    document.getElementById("notification").innerText = note;
+    let notice = document.getElementById("Notice");
+    notice.style.display = "block";
+    setTimeout(CloseNotice, 3500);
+
+}
+
+connection.on("Reverse", function (dir) {
+    document.getElementById("directionarrow").style = "transform: scaleX(" + dir + ")";
+    ShowNotice("Reversed!");
+});
+
+var CloseNotice = function () {
+    let notice = document.getElementById("Notice");
+    notice.style.display = "none";
+    noticeup = false;
+
+}
 
 connection.on("DealCard", function (card) {
     let div = document.createElement("div");
@@ -92,7 +150,10 @@ document.getElementById("newbutton").addEventListener("click", function (event) 
 });
 
 document.getElementById("deck").addEventListener("click", function (event) {
-    if (YoureUp) {
+    if (YoureUp && !hasDrawn) {
+        let et = document.getElementById("endTurn");
+        et.className = "btn btn-info";
+        hasDrawn = true;
         connection.invoke("DrawCard", roomid, 1, null).catch(function (err) {
             return console.error(err.toString());
 
@@ -100,10 +161,11 @@ document.getElementById("deck").addEventListener("click", function (event) {
     }
     event.preventDefault();
 });
-
+//TODO: Add scores to users in lobby
 document.getElementById("joinButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var joinroom = document.getElementById("messageInput").value;
+    let user = document.getElementById("userInput").value;
+    let raw = document.getElementById("RoomID").value;
+    let joinroom = raw.toUpperCase();
     connection.invoke("JoinRoom", user, joinroom).then(function (result) {
         if (result) {
             roomid = joinroom;
@@ -126,8 +188,16 @@ document.getElementById("dealbutton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
+var EndTurnClick = function (event) {
+    let et = document.getElementById("endTurn");
+    et.className = "btn btn-info disabled";
+    connection.invoke("PlayCard", roomid + ',0,EndTurn'); //This is a dummy card to signal no card played, but process all else.
+}
+
 var CardEvents = function (event) {
     if (YoureUp) {
+        let et = document.getElementById("endTurn");
+        et.className = "btn btn-info disabled";
         let playedcard = event.srcElement;
         let cid = playedcard.dataset.cardID;
         WildIf: if (playedcard.dataset.cardwild == "true") {
@@ -140,7 +210,6 @@ var CardEvents = function (event) {
                 modal.style.display = "none";
             }
             modal.style.display = "block";
-            //TODO: Finish this up in the modal close out code.
         }
         else {
             let ccolor = playedcard.dataset.cardcolor;
@@ -156,9 +225,6 @@ var CardEvents = function (event) {
                 });
             }
         }
-        //TODO: Add logic to select wild color
-
-        let bc = 3;
         //TODO: Else signal not an appropriate card.
     }
 }

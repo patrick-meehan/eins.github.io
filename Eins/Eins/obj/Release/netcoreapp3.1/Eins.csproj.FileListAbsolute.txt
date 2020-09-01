@@ -22,7 +22,6 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Eins.TagHelpers.output.cache
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Eins.RazorCoreGenerate.cache
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -37,3 +36,16 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Eins.pdb
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Eins.genruntimeconfig.cache
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\obj\Release\netcoreapp3.1\Eins.csproj.CopyComplete
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Properties\serviceDependencies.EinsAppService - Web Deploy.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Properties\serviceDependencies.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Properties\ServiceDependencies\EinsAppService - Web Deploy\profile.arm.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Properties\ServiceDependencies\EinsAppService - Web Deploy\signalr1.arm.json
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.Azure.SignalR.Common.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.Azure.SignalR.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.Azure.SignalR.Protocols.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

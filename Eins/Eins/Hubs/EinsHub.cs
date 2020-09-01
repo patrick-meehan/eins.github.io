@@ -13,7 +13,7 @@ namespace Eins.Hubs
     public class EinsHub : Hub
     {
         private static List<Room> Rooms = new List<Room>();
-      
+
         public async Task<string> StartRoom(string user)
         {
             Room newroom = new Room();
@@ -35,7 +35,7 @@ namespace Eins.Hubs
                 p.Name = user;
                 p.ID = Context.ConnectionId;
                 r.Players.Add(p);
-                foreach(Player np in r.Players)
+                foreach (Player np in r.Players)
                 {
                     await Clients.Client(np.ID).SendAsync("Players", r.Players);
                 }
@@ -53,10 +53,11 @@ namespace Eins.Hubs
             Room curroom = Rooms.Find(x => x.RoomID == roomid);
             Deck curdeck = curroom.RoomDeck;
             Card next;
-
-            foreach(Player p in curroom.Players)
+            curroom.SetPlayers();
+            foreach (Player p in curroom.Players)
             {
-                Clients.Client(p.ID).SendAsync("StartGame");
+
+                Clients.Client(p.ID).SendAsync("StartGame", p.ToLeft, p.ToRight);
             }
             for (int q = 0; q < 7; q++)
             {
@@ -104,42 +105,80 @@ namespace Eins.Hubs
         {
             string[] passed = parms.Split(',');
             string roomid = passed[0];
-            int cardid = int.Parse( passed[1]);
+            int cardid = int.Parse(passed[1]);
             string newcolor = passed[2];
             Room curroom = Rooms.Find(x => x.RoomID == roomid);
             Player player = curroom.Players.Find(p => p.ID == Context.ConnectionId);
-            Card played = player.Hand.Find(c => c.CardID == cardid);
-            player.Hand.Remove(played);           
-            played.Color = newcolor;
-            curroom.DiscardPile.Add(played);
-            foreach (Player p in curroom.Players)
-            {
-                Clients.Client(p.ID).SendAsync("UpdateDiscard", played);
-            }
-
-            UpdateCanPlayDraw4(roomid);
             Clients.Client(player.ID).SendAsync("TurnOver");
-            switch (played.Face)
+            bool lastcard = false;
+            if (newcolor != "EndTurn")
             {
-                case "R":
-                    curroom.Direction *= -1;
-                    break;
-                case "S":
-                    curroom.NextPlayer();
-                    break;
-                case "D":
-                    curroom.NextPlayer();
-                    DrawCard(roomid, 2, curroom.Players[curroom.PlayerIndex]);
-                    break;
-                case "-4":
-                    curroom.NextPlayer();
-                    DrawCard(roomid, 4, curroom.Players[curroom.PlayerIndex]);
-                    break;
+                Card played = player.Hand.Find(c => c.CardID == cardid);
+                player.Hand.Remove(played);
+                lastcard = player.Hand.Count == 0;
+                played.Color = newcolor;
+                curroom.DiscardPile.Add(played);
+                foreach (Player p in curroom.Players)
+                {
+                    Clients.Client(p.ID).SendAsync("UpdateDiscard", played);
+                }
+                UpdateCanPlayDraw4(roomid);
+                switch (played.Face)
+                {
+                    case "R":
+                        curroom.Direction *= -1;
+                        foreach (Player p in curroom.Players)
+                        {
+                            Clients.Client(p.ID).SendAsync("Reverse", curroom.Direction);
+                        }
+                        break;
+                    case "S":
+                        curroom.NextPlayer();
+                        Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "You were Skipped!");
+                        break;
+                    case "D":
+                        curroom.NextPlayer();
+                        Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "Draw 2!");
+                        DrawCard(roomid, 2, curroom.Players[curroom.PlayerIndex]);
+                        break;
+                    case "-4":
+                        curroom.NextPlayer();
+                        Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "Have some more cards! +4 to you.");
+                        DrawCard(roomid, 4, curroom.Players[curroom.PlayerIndex]);
+                        break;
+                }
             }
             curroom.NextPlayer();
-            Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("YourTurn");        
-        
+            if (!lastcard)
+            {
+                Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("YourTurn");
+            }
+            else
+            {
+                Player winner = curroom.EndGame();
+                foreach (Player p in curroom.Players)
+                {
+                    string note;
+                    if (p.ID == winner.ID)
+                    {
+                        note = string.Format("You won!{0}Score:{1}", System.Environment.NewLine, winner.Score);
+                    }
+                    else
+                    {
+                        note = string.Format("Player {0} won this game.", winner.Name);
+                    }
+                    Clients.Client(p.ID).SendAsync("EndGame", note);
+
+
+
+
+                }
+            }
+
         }
+
+
+
 
         public void DrawCard(string roomid, int howMany, Player player = null)
         {
@@ -154,5 +193,7 @@ namespace Eins.Hubs
                 curroom.RoomDeck.Cards.RemoveAt(0);
             }
         }
+
+
     }
 }

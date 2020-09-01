@@ -4,21 +4,31 @@
 
 <div class="container">
     <div id="Lobby">
-        <div class="row">&nbsp;</div>
-        <div class="row">
+        <div class="jumbotron-fluid" style="font-family:Calibri;">
+            <h1>Eins</h1>
+            <p>Welcome to Eins. An oddly familiar card game built for the COVID-19 world.</p>
+            
+        </div>
+        <div class="card">
+            <p>To begin, enter a screen name.</p>
+            <p>Have one person in your group click New Room to get a room code.</p>
+            <p>Everyone else: enter the room code and join the room.</p>
             <div class="col-2">User</div>
             <div class="col-4"><input type="text" id="userInput" /></div>
         </div>
         <div class="row">
-            <div class="col-2">RoomID</div>
-            <div class="col-4"><input type="text" id="messageInput" /></div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
             <div class="col-6">
                 <input type="button" id="newbutton" value="New Room" />
             </div>
-
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2">Room ID</div>
+            <div class="col-4"><input type="text" style="text-transform: uppercase;" id="RoomID" /></div>
         </div>
         <div class="row">
             <div class="col-6">
@@ -30,15 +40,11 @@
         <div class="row">
             <div class="col-8" id="roomcode"></div>
         </div>
-
         <div class="row">&nbsp;</div>
         <div class="PlayerList">
             <ol id="Players">
             </ol>
         </div>
-
-
-
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-8">
@@ -46,29 +52,52 @@
             </div>
         </div>
     </div>
-    <div id="gametable" style="display: none; background-color: white;">
+    <div id="gametable" class="container" style="display: none; background-color: white;">
         <div class="row">
-            <div>
-                <div class="Card" id="discardPile">&nbsp;</div>
-                <div class="Card CardBack" id="deck">&nbsp;</div>
-            </div>
+            <div class="col-12" style="text-align:center;" id="tableroomid"></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <table class="deckarea">
+                <tr>
+                    <td width="10%">
+                        <div style="text-orientation:upright; writing-mode:vertical-lr;" id="leftplayer"></div>
+                    </td>
+                    <td width="20%">
+                        <div class=" Card" id="discardPile">&nbsp;</div>
+
+                    </td>
+                    <td width="30%">
+                        <div><a href="#" class="btn btn-info disabled endTurnBtn" role="button" id="endTurn" onclick="EndTurnClick()">End Turn</a></div>
+                    </td>
+                    <td width="20%">
+                        <div class="Card CardBack" id="deck">&nbsp;</div>
+                    </td>
+                    <td width="10%">
+                        <div style="text-orientation:upright; writing-mode:vertical-lr;" id="rightplayer"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%"></td>
+                    <td width="80%"><img id="directionarrow" width="80%" height="20px" src="~/images/dirarrow.png" /></td>
+                    <td width="10%"></td>
+                </tr>
+            </table>
         </div>
         <div class="row">
             <div class="col-12">
                 <hr />
             </div>
         </div>
-        <div id="MyHand" class="flex-container">
-        </div>
+        <div id="MyHand" class="flex-container"></div>
     </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
             <div id="WildColorButtons">
-                <table>
+                <table style="align-content: center;">
                     <tr>
                         <td>
                             <div class="WildColorButton" id="pickRed" style="background-color: #ff5555;" onclick="WildColorClick('Red')" />
@@ -88,8 +117,14 @@
                 </table>
             </div>
         </div>
-
     </div>
+    <div id="Notice" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="col-12" style="text-align:center;" id="notification">THis is the default</div>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

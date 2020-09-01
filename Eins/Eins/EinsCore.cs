@@ -78,6 +78,10 @@ namespace Eins.Core
     {
         public string Name { get; set; }
         public string ID { get; set; }
+        public int Score { get; set; }
+
+        public string ToLeft { get; set; }
+        public string ToRight { get; set; }
 
         public List<Card> Hand = new List<Card>();
 
@@ -118,6 +122,68 @@ namespace Eins.Core
             PlayerIndex = 0;
         }
 
+        public Player EndGame()
+        {
+            Player winner = ScoreRoom();
+            RoomDeck = new Deck();
+            Direction = 1;
+            PlayerIndex = 0;
+            DiscardPile.Clear();
+            int pcount = Players.Count;
+            if (pcount > 1)
+            {
+                Player first = Players[0];
+                first.Hand.Clear();
+                for (int p = 1; p < pcount; p++)
+                {
+                    Players[p].Hand.Clear();
+                    Players[p - 1] = Players[p];
+                }
+                Players[pcount - 1] = first;
+            }
+            return winner;
+
+        }
+
+        public Player ScoreRoom()
+        {
+            int score = 0;
+            int winner = -1;
+            for (int p = 0; p < Players.Count; p++)
+            {
+                Player me = Players[p];
+                if (me.Hand.Count == 0) winner = p;
+                foreach (Card c in me.Hand)
+                {
+                    switch (c.Face)
+                    {
+                        case "S":
+                        case "R":
+                        case "D":
+                            score += 20;
+                            break;
+                        case "W":
+                        case "-4":
+                            score += 50;
+                            break;
+                        default:
+                            score += int.Parse(c.Face);
+                            break;
+                    }
+                }
+            }
+            if (winner > -1)
+            {
+                Players[winner].Score = score;
+                return Players[winner];
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
         private string GenID()
         {
             StringBuilder id = new StringBuilder(4);
@@ -148,9 +214,23 @@ namespace Eins.Core
         public void NextPlayer()
         {
             int n = PlayerIndex + Direction;
-            if (n <0) { n = Players.Count - 1; }
+            if (n < 0) { n = Players.Count - 1; }
             if (n >= Players.Count) { n = 0; }
             PlayerIndex = n;
+        }
+
+        public void SetPlayers()
+        {
+            for (int n = 0; n < Players.Count; n++)
+            {
+                int l = n - 1;
+                if (l < 0) l = Players.Count - 1;
+                int r = n + 1;
+                if (r == Players.Count) r = 0;
+                Players[n].ToLeft = Players[l].Name;
+                Players[n].ToRight = Players[r].Name;
+
+            }
         }
 
     }
