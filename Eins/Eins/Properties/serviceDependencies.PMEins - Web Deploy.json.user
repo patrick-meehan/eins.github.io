@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "signalr1": {
+      "restored": true,
+      "restoreTime": "2020-09-01T15:06:00.8875Z"
+    },
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2020-09-01T15:05:32.4797791Z"
+    }
+  },
+  "parameters": {
+    "signalr1.resourceGroupName": {
+      "Type": "resourceGroup",
+      "Value": "eins"
+    },
+    "secrets1.resourceGroupName": {
+      "Type": "resourceGroup",
+      "Value": "eins"
+    },
+    "signalr1.subscriptionId": {
+      "Type": "subscription",
+      "Value": "d3708a33-3e9b-4270-b8b5-9f2a2396dc3a"
+    },
+    "secrets1.subscriptionId": {
+      "Type": "subscription",
+      "Value": "d3708a33-3e9b-4270-b8b5-9f2a2396dc3a"
+    }
+  }
+}

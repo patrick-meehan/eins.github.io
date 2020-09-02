@@ -2,128 +2,144 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
+<div class="container-fluid">
     <div id="Lobby">
-        <div class="jumbotron-fluid" style="font-family:Calibri;">
+        <div class="jumbotron maintitle">
             <h1>Eins</h1>
             <p>Welcome to Eins. An oddly familiar card game built for the COVID-19 world.</p>
-            
-        </div>
-        <div class="card">
-            <p>To begin, enter a screen name.</p>
-            <p>Have one person in your group click New Room to get a room code.</p>
-            <p>Everyone else: enter the room code and join the room.</p>
-            <div class="col-2">User</div>
-            <div class="col-4"><input type="text" id="userInput" /></div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <input type="button" id="newbutton" value="New Room" />
-            </div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">&nbsp;</div>
-        <div class="row">&nbsp;</div>
-        <div class="row">&nbsp;</div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-2">Room ID</div>
-            <div class="col-4"><input type="text" style="text-transform: uppercase;" id="RoomID" /></div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <input type="button" id="joinButton" value="Join Room" />
-            </div>
-        </div>
-    </div>
-    <div id="waitingroom" style="display: none;">
-        <div class="row">
-            <div class="col-8" id="roomcode"></div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="PlayerList">
-            <ol id="Players">
-            </ol>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-8">
-                <input type="button" id="dealbutton" value="deal" />
-            </div>
-        </div>
-    </div>
-    <div id="gametable" class="container" style="display: none; background-color: white;">
-        <div class="row">
-            <div class="col-12" style="text-align:center;" id="tableroomid"></div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <table class="deckarea">
-                <tr>
-                    <td width="10%">
-                        <div style="text-orientation:upright; writing-mode:vertical-lr;" id="leftplayer"></div>
-                    </td>
-                    <td width="20%">
-                        <div class=" Card" id="discardPile">&nbsp;</div>
 
+        </div>
+        <div class="card lobbyinstructions">
+            <div class="card-header">First things first...</div>
+            <div class="card-body">
+                <p class="centered">
+                    To begin, enter a screen name.<br />
+                </p>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Name:</span></div>
+                    <input type="text" id="userInput" required autofocus />
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row" id="roomChoices" style="display:none;">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">Then, Join a room.&nbsp;&nbsp;&nbsp;-OR-</div>
+                    <div class="card-body">
+                        <p>Everyone else: enter the room code and join the room.<br /></p>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">Room ID:</span></div>
+                            <input type="text" style="text-transform: uppercase;" id="RoomID" />
+                            &nbsp;&nbsp;
+                            <input type="button" id="joinButton" disabled value="Join Room" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">Start a new room.</div>
+                    <div class="card-body">
+                        <p>One person in your group click New Room to get a room code.<br /></p>
+                        <div class="input-group">
+                            <input type="button" id="newbutton" value="New Room" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="waitingroom" style="display: none;">
+    <div class="row">
+        <div class="col-8" id="roomcode"></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="PlayerList">
+        <ol id="Players">
+        </ol>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-8">
+            <input type="button" id="dealbutton" value="deal" />
+        </div>
+    </div>
+</div>
+<div id="gametable" class="container" style="display: none; background-color: white;">
+    <div class="row">
+        <div class="col-12" style="text-align:center;" id="tableroomid"></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <table class="deckarea">
+            <tr>
+                <td width="10%">
+                    <div style="text-orientation:upright; writing-mode:vertical-lr;" id="leftplayer"></div>
+                </td>
+                <td width="20%">
+                    <div class=" Card" id="discardPile">&nbsp;</div>
+
+                </td>
+                <td width="30%">
+                    <div><a href="#" class="btn btn-info disabled endTurnBtn" role="button" id="endTurn" onclick="EndTurnClick()">End Turn</a></div>
+                </td>
+                <td width="20%">
+                    <div class="Card CardBack" id="deck">&nbsp;</div>
+                </td>
+                <td width="10%">
+                    <div style="text-orientation:upright; writing-mode:vertical-lr;" id="rightplayer"></div>
+                </td>
+            </tr>
+            <tr>
+                <td width="10%"></td>
+                <td width="80%"><img id="directionarrow" width="80%" height="20px" src="~/images/dirarrow.png" /></td>
+                <td width="10%"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div id="MyHand" class="flex-container"></div>
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="WildColorButtons">
+            <table style="align-content: center;">
+                <tr>
+                    <td>
+                        <div class="WildColorButton" id="pickRed" style="background-color: #ff5555;" onclick="WildColorClick('Red')" />
                     </td>
-                    <td width="30%">
-                        <div><a href="#" class="btn btn-info disabled endTurnBtn" role="button" id="endTurn" onclick="EndTurnClick()">End Turn</a></div>
-                    </td>
-                    <td width="20%">
-                        <div class="Card CardBack" id="deck">&nbsp;</div>
-                    </td>
-                    <td width="10%">
-                        <div style="text-orientation:upright; writing-mode:vertical-lr;" id="rightplayer"></div>
+                    <td>
+                        <div class="WildColorButton" id="pickYellow" style="background-color: #ffaa00;" onclick="WildColorClick('Yellow')" />
                     </td>
                 </tr>
                 <tr>
-                    <td width="10%"></td>
-                    <td width="80%"><img id="directionarrow" width="80%" height="20px" src="~/images/dirarrow.png" /></td>
-                    <td width="10%"></td>
+                    <td>
+                        <div class="WildColorButton" id="pickGreen" style="background-color: #55aa55;" onclick="WildColorClick('Green')" />
+                    </td>
+                    <td>
+                        <div class="WildColorButton" id="pickBlue" style="background-color: #5555ff;" onclick="WildColorClick('Blue')" />
+                    </td>
                 </tr>
             </table>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <hr />
-            </div>
-        </div>
-        <div id="MyHand" class="flex-container"></div>
     </div>
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="WildColorButtons">
-                <table style="align-content: center;">
-                    <tr>
-                        <td>
-                            <div class="WildColorButton" id="pickRed" style="background-color: #ff5555;" onclick="WildColorClick('Red')" />
-                        </td>
-                        <td>
-                            <div class="WildColorButton" id="pickYellow" style="background-color: #ffaa00;" onclick="WildColorClick('Yellow')" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="WildColorButton" id="pickGreen" style="background-color: #55aa55;" onclick="WildColorClick('Green')" />
-                        </td>
-                        <td>
-                            <div class="WildColorButton" id="pickBlue" style="background-color: #5555ff;" onclick="WildColorClick('Blue')" />
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+</div>
+<div id="Notice" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="col-12" style="text-align:center;" id="notification">THis is the default</div>
     </div>
-    <div id="Notice" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <div class="col-12" style="text-align:center;" id="notification">THis is the default</div>
-        </div>
-    </div>
+</div>
 
 </div>
 

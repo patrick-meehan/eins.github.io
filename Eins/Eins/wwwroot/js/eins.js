@@ -13,6 +13,9 @@ var leftplayer = '';
 var rightplayer = '';
 var noticeup = false;
 var tablelocked = false;
+
+const NoticeTimeShort = 2500;
+const NoticeTimeLong = 5000;
 //TODO: Setup YoureUP logic
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
@@ -30,9 +33,7 @@ connection.on("UpdateDiscard", function (card) {
     discardface = card.face;
     let dp = document.getElementById("discardPile");
     dp.className = card.cardClass;
-
-
-})
+});
 
 connection.on("UpdateCanPlayDraw4", function (canplay) { CanPlayDraw4 = canplay; });
 
@@ -52,8 +53,34 @@ connection.on("StartGame", function (left, right) {
 
 connection.on("EndGame", function (winnote) {
     ShowNotice(winnote);
-    setTimeout(CleanUp, 3500);
+    setTimeout(CleanUp, NoticeTimeLong);
 });
+
+function NameChanged() {
+    let nm = $('#userInput').val();
+    if (nm != '') {
+        $('#roomChoices').show();
+    }
+    else {
+        $('#roomChoices').hide();
+    }
+}
+
+function RoomIDChanged() {
+    let ri = $('#RoomID').val();
+    if (ri.length == 4) {
+        $('#joinButton').removeAttr("disabled");
+    }
+    else {
+        $('#joinButton').attr("disabled", true);
+        
+    }
+}
+
+$('#userInput').on('input', NameChanged);  //.change(NameChanged);
+$('#RoomID').on('input', RoomIDChanged);  //.change(RoomIDChanged);
+
+
 
 function CleanUp() {
     let hand = document.getElementById("MyHand");
@@ -84,7 +111,7 @@ connection.on("YourTurn", function () {
     YoureUp = true;
     hasDrawn = false;
     let tbl = document.getElementById("MyHand");
-    tbl.style.backgroundColor = "grey";
+    tbl.style.backgroundColor = "teal";
 });
 
 connection.on("Notify", function (notification) {
@@ -96,7 +123,7 @@ function ShowNotice(note) {
     document.getElementById("notification").innerText = note;
     let notice = document.getElementById("Notice");
     notice.style.display = "block";
-    setTimeout(CloseNotice, 3500);
+    setTimeout(CloseNotice, NoticeTimeShort);
 
 }
 
