@@ -9,17 +9,16 @@ var YoureUp = false;
 var wildcolor = '';
 var playedwild = '';
 var hasDrawn = false;
-var leftplayer = '';
-var rightplayer = '';
 var noticeup = false;
 var tablelocked = false;
+var myname = '';
 
-const NoticeTimeShort = 2500;
+const NoticeTimeShort = 1700;
 const NoticeTimeLong = 5000;
-//TODO: Setup YoureUP logic
+
+
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
-
 
 connection.on("Players", function (something) {
     $("#Players").empty();
@@ -38,22 +37,17 @@ connection.on("UpdateDiscard", function (card) {
 connection.on("UpdateCanPlayDraw4", function (canplay) { CanPlayDraw4 = canplay; });
 
 connection.on("StartGame", function (left, right) {
-    let waiting = document.getElementById("waitingroom");
-    waiting.style = "display: none;";
-    let rl = document.getElementById("tableroomid");
-    rl.innerText = roomid;
-    leftplayer = left;
-    document.getElementById("leftplayer").innerText = leftplayer;
-    rightplayer = right;
-    document.getElementById("rightplayer").innerText = rightplayer;
-    let tbl = document.getElementById("gametable");
-    tbl.style = "display: normal;";
+    $('#waitingroom').hide();
+    $('#tableroomid').text(myname + ' in Room:' + roomid);
+    $('#leftplayer').text(left);
+    $('#rightplayer').text(right);
+    $('#gametable').show();
     tablelocked = true;
 });
 
 connection.on("EndGame", function (winnote) {
-    ShowNotice(winnote);
-    setTimeout(CleanUp, NoticeTimeLong);
+    ShowNotice(winnote, NoticeTimeLong);
+    setTimeout(CleanUp, NoticeTimeLong + 500);
 });
 
 function NameChanged() {
@@ -73,30 +67,25 @@ function RoomIDChanged() {
     }
     else {
         $('#joinButton').attr("disabled", true);
-        
+
     }
 }
 
-$('#userInput').on('input', NameChanged);  //.change(NameChanged);
-$('#RoomID').on('input', RoomIDChanged);  //.change(RoomIDChanged);
-
-
+$('#userInput').on('input', NameChanged);
+$('#RoomID').on('input', RoomIDChanged);
+$('#endTurn').hide();
 
 function CleanUp() {
-    let hand = document.getElementById("MyHand");
-    hand.textContent = ''; //clear the hand
+    $('#MyHand').empty();//clear the hand
     //reset to defaults
     CanPlayDraw4 = false;
     YoureUp = false;
     wildcolor = '';
     playedwild = '';
     hasDrawn = false;
-    leftplayer = '';
-    rightplayer = '';
-    let waiting = document.getElementById("waitingroom");
-    waiting.style = "display: block;";
-    let tbl = document.getElementById("gametable");
-    tbl.style = "display: none;";
+    $('#waitingroom').show();
+    $('#gametable').hide();
+    $('#endTurn').hide();
     tablelocked = false;
 }
 
@@ -115,26 +104,24 @@ connection.on("YourTurn", function () {
 });
 
 connection.on("Notify", function (notification) {
-    ShowNotice(notification);
+    ShowNotice(notification, NoticeTimeShort);
 });
 
-function ShowNotice(note) {
+function ShowNotice(note, t) {
     noticeup = true;
-    document.getElementById("notification").innerText = note;
-    let notice = document.getElementById("Notice");
-    notice.style.display = "block";
-    setTimeout(CloseNotice, NoticeTimeShort);
+    $('#notification').text(note);
+    $('#Notice').show();
+    setTimeout(CloseNotice, t);
 
 }
 
 connection.on("Reverse", function (dir) {
     document.getElementById("directionarrow").style = "transform: scaleX(" + dir + ")";
-    ShowNotice("Reversed!");
+    ShowNotice("Reversed!", NoticeTimeShort);
 });
 
 var CloseNotice = function () {
-    let notice = document.getElementById("Notice");
-    notice.style.display = "none";
+    $('#Notice').hide();
     noticeup = false;
 
 }
@@ -164,10 +151,9 @@ function GoIntoWiating() {
 }
 
 document.getElementById("newbutton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    connection.invoke("StartRoom", user).then(function (result) {
-        var lbl = document.getElementById("roomcode");
-        lbl.innerHTML = result;
+    myname = document.getElementById("userInput").value;
+    connection.invoke("StartRoom", myname).then(function (result) {
+        $('#roomcode').text(result);
         roomid = result;
         GoIntoWiating();
     }).catch(function (err) {
@@ -178,29 +164,33 @@ document.getElementById("newbutton").addEventListener("click", function (event) 
 
 document.getElementById("deck").addEventListener("click", function (event) {
     if (YoureUp && !hasDrawn) {
-        let et = document.getElementById("endTurn");
-        et.className = "btn btn-info";
+        $('#endTurn').show();
         hasDrawn = true;
         connection.invoke("DrawCard", roomid, 1, null).catch(function (err) {
             return console.error(err.toString());
-
         });
     }
     event.preventDefault();
 });
 //TODO: Add scores to users in lobby
 document.getElementById("joinButton").addEventListener("click", function (event) {
-    let user = document.getElementById("userInput").value;
-    let raw = document.getElementById("RoomID").value;
+    myname = $('#userInput').val();
+    let raw = $("#RoomID").val();
     let joinroom = raw.toUpperCase();
-    connection.invoke("JoinRoom", user, joinroom).then(function (result) {
-        if (result) {
-            roomid = joinroom;
-            GoIntoWiating();
+    connection.invoke("JoinRoom", myname, joinroom).then(function (result) {
+        switch (result) {
+            case "Joined":
+                roomid = joinroom;
+                $('#roomcode').text(roomid);
+                GoIntoWiating();
+                break;
+            case "Locked":
+                ShowNotice("Sorry, this game is in progress.  Wait for the current round to end.", NoticeTimeLong);
+                break;
+            case "Invalid":
+                ShowNotice("Can't find room " + joinroom + '! Check spelling.', NoticeTimeLong);
+                break;
         }
-        else {
-            alert("Not a Room!");
-        };
     }).catch(function (err) {
         return console.error(err.toString());
     });
@@ -216,27 +206,24 @@ document.getElementById("dealbutton").addEventListener("click", function (event)
 });
 
 var EndTurnClick = function (event) {
-    let et = document.getElementById("endTurn");
-    et.className = "btn btn-info disabled";
+    $('#endTurn').hide();
     connection.invoke("PlayCard", roomid + ',0,EndTurn'); //This is a dummy card to signal no card played, but process all else.
 }
 
 var CardEvents = function (event) {
     if (YoureUp) {
-        let et = document.getElementById("endTurn");
-        et.className = "btn btn-info disabled";
+        $('#endTurn').hide();
         let playedcard = event.srcElement;
         let cid = playedcard.dataset.cardID;
         WildIf: if (playedcard.dataset.cardwild == "true") {
             if (playedcard.dataset.cardface == '-4' && CanPlayDraw4 == false) break WildIf;
             wildcolor = '';
             playedwild = playedcard;
-            let modal = document.getElementById("myModal");
             let span = document.getElementsByClassName("close")[0];
             span.onclick = function () {
-                modal.style.display = "none";
+                $('#myModal').hide();
             }
-            modal.style.display = "block";
+            $('#myModal').show();
         }
         else {
             let ccolor = playedcard.dataset.cardcolor;

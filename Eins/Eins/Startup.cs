@@ -44,7 +44,6 @@ namespace Eins
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            //TODO: This line for local app.UseStaticFiles();
 
             app.UseFileServer();
 

@@ -3,8 +3,10 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 div {
-    font-family: 'Permanent Marker', cursive;
+    font-family: 'Gochi Hand', cursive;
+    font-size: large;
 }
+
 
 
 a.navbar-brand {
@@ -53,6 +55,11 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+.maintitle {
+    font-family:Calibri;
+    font-size:20px;
+}
+
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
@@ -66,8 +73,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+   background-color:#1b6ec2;
 }
 .footer {
   position: absolute;
@@ -77,12 +85,22 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-.Card{
-background: url("/images/cards_deck.png");
-width: 74px;
-height: 110px;
-padding: 5px 5px 5px 5px;
-margin:3px;
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lobbyinstructions {
+   margin-left:auto;
+   margin-right:auto;
+}
+
+.Card {
+    background: url("/images/cards_deck.png");
+    width: 74px;
+    height: 110px;
+    padding: 5px 5px 5px 5px;
+    margin: 3px;
 }
 
 .Card:hover{
@@ -161,23 +179,34 @@ margin:3px;
     background-position-x: -877px;
 }
 
-
+.roomCode{
+    font-family:Calibri;
+    font-weight:bold;
+    font-size:xx-large;
+}
 
 .flex-container {
     display: flex;
     flex-wrap: wrap;
+    border-radius: 4px;
 }
 
 .WildColorButton {
-    height: 30px;
-    width: 20px;
+    height: 50px;
+    width: 30px;
     padding: 5px 5px 5px 5px;
 }
 
-. endTurnBtn {
-    vertical-align: central;
-    margin-left: auto;
-    margin-right: auto;
+.deckareagrid{
+    display:grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 2fr 3fr 2fr 1fr;
+    justify-items: center;
+  vertical-align:central;
+}
+
+.dirarrowgrid{
+    grid-column: 1/-1;
 }
 
 .deckarea {

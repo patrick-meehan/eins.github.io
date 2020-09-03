@@ -22,35 +22,45 @@ namespace Eins.Hubs
             p.ID = Context.ConnectionId;
             newroom.Players.Add(p);
             Rooms.Add(newroom);
-            await Clients.Caller.SendAsync("PlayerAdded", user);
+            foreach (Player np in newroom.Players)
+            {
+                await Clients.Client(np.ID).SendAsync("Players", newroom.Players);
+            }
             return newroom.RoomID;
 
         }
-        public async Task<bool> JoinRoom(string user, string roomid)
+        public async Task<string> JoinRoom(string user, string roomid)
         {
             Room r = Rooms.Find(x => x.RoomID == roomid);
             if (r != null)
             {
-                Player p = new Player();
-                p.Name = user;
-                p.ID = Context.ConnectionId;
-                r.Players.Add(p);
-                foreach (Player np in r.Players)
+                if (r.RoomLocked)
                 {
-                    await Clients.Client(np.ID).SendAsync("Players", r.Players);
+                    return "Locked";
                 }
-                //await Clients.All.SendAsync("Players", r.Players);
-                return true;
+                else
+                {
+                    Player p = new Player();
+                    p.Name = user;
+                    p.ID = Context.ConnectionId;
+                    r.Players.Add(p);
+                    foreach (Player np in r.Players)
+                    {
+                        await Clients.Client(np.ID).SendAsync("Players", r.Players);
+                    }
+                    return "Joined";
+                }
             }
             else
             {
-                return false;
+                return "Invalid";
             }
         }
 
         public void Deal(string roomid)
         {
             Room curroom = Rooms.Find(x => x.RoomID == roomid);
+            curroom.RoomLocked = true;
             Deck curdeck = curroom.RoomDeck;
             Card next;
             curroom.SetPlayers();
@@ -111,6 +121,7 @@ namespace Eins.Hubs
             Player player = curroom.Players.Find(p => p.ID == Context.ConnectionId);
             Clients.Client(player.ID).SendAsync("TurnOver");
             bool lastcard = false;
+            //TODO: If there is only one player then you need to verify they are still last card otherwise +2/4 will break game.
             if (newcolor != "EndTurn")
             {
                 Card played = player.Hand.Find(c => c.CardID == cardid);
@@ -176,9 +187,6 @@ namespace Eins.Hubs
             }
 
         }
-
-
-
 
         public void DrawCard(string roomid, int howMany, Player player = null)
         {

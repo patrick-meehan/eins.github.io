@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 
 
@@ -111,6 +112,8 @@ namespace Eins.Core
 
         public int PlayerIndex { get; set; }
 
+        public bool RoomLocked { get; set; }
+
         public List<Card> DiscardPile = new List<Card>();
 
         public List<Player> Players = new List<Player>();
@@ -141,6 +144,7 @@ namespace Eins.Core
                 }
                 Players[pcount - 1] = first;
             }
+            RoomLocked = false;
             return winner;
 
         }
@@ -210,7 +214,6 @@ namespace Eins.Core
             }
             DiscardPile.Add(topdiscard);
         }
-        //TODO: Make a lobby.
         public void NextPlayer()
         {
             int n = PlayerIndex + Direction;
@@ -237,6 +240,3 @@ namespace Eins.Core
 
 }
 
-//TODO: Setup room lockout when active game
-//TODO: Create end of game logic
-//TODO: Look into notifications to players:  your turn, skipped, draw 2, etc.

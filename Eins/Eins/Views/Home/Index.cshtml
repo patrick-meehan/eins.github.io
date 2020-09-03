@@ -49,63 +49,77 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <div id="waitingroom" style="display: none;">
-    <div class="row">
-        <div class="col-8" id="roomcode"></div>
+    <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
+    <div class="card text-center">
+        <div class="card-header">Room ID</div>
+        <h1 class="card-title roomCode" id="roomcode"></h1>
+        <div class="card-footer">Wait here for other players to join.<br />When everyone is here, someone can click Deal to start the game.</div>
     </div>
     <div class="row">&nbsp;</div>
-    <div class="PlayerList">
-        <ol id="Players">
-        </ol>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-8">
-            <input type="button" id="dealbutton" value="deal" />
+    <div class="card">
+        <div class="card-header">Players</div>
+        <div class="card-body">
+            <ol id="Players"></ol>
         </div>
     </div>
+    <div class="row">&nbsp;</div>
+    <input class="centered" type="button" id="dealbutton" value="deal" />
 </div>
 <div id="gametable" class="container" style="display: none; background-color: white;">
-    <div class="row">
-        <div class="col-12" style="text-align:center;" id="tableroomid"></div>
-    </div>
     <div class="row">&nbsp;</div>
-    <div class="row">
-        <table class="deckarea">
-            <tr>
-                <td width="10%">
+    <div class="card">
+        <div class="card-header">
+            <div class="text-center maintitle" id="tableroomid"></div>
+        </div>
+        <div class="card-body">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="deckareagrid centered">
                     <div style="text-orientation:upright; writing-mode:vertical-lr;" id="leftplayer"></div>
-                </td>
-                <td width="20%">
                     <div class=" Card" id="discardPile">&nbsp;</div>
-
-                </td>
-                <td width="30%">
-                    <div><a href="#" class="btn btn-info disabled endTurnBtn" role="button" id="endTurn" onclick="EndTurnClick()">End Turn</a></div>
-                </td>
-                <td width="20%">
+                    <div><a href="#" class="btn btn-info" role="button" id="endTurn" onclick="EndTurnClick()">End Turn</a></div>
                     <div class="Card CardBack" id="deck">&nbsp;</div>
-                </td>
-                <td width="10%">
                     <div style="text-orientation:upright; writing-mode:vertical-lr;" id="rightplayer"></div>
-                </td>
-            </tr>
-            <tr>
-                <td width="10%"></td>
-                <td width="80%"><img id="directionarrow" width="80%" height="20px" src="~/images/dirarrow.png" /></td>
-                <td width="10%"></td>
-            </tr>
-        </table>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <hr />
+                    <div class="dirarrowgrid"><img id="directionarrow" width="80%" height="20px" src="~/images/dirarrow.png" /></div>
+                </div>
+                @*<table class="deckarea">
+                        <tr>
+                            <td width="10%">
+                                <div style="text-orientation:upright; writing-mode:vertical-lr;" id="leftplayer"></div>
+                            </td>
+                            <td width="20%">
+                                <div class=" Card" id="discardPile">&nbsp;</div>
+
+                            </td>
+                            <td width="30%">
+                                <div><a href="#" class="btn btn-info disabled endTurnBtn" role="button" id="endTurn" onclick="EndTurnClick()">End Turn</a></div>
+                            </td>
+                            <td width="20%">
+                                <div class="Card CardBack" id="deck">&nbsp;</div>
+                            </td>
+                            <td width="10%">
+                                <div style="text-orientation:upright; writing-mode:vertical-lr;" id="rightplayer"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%"></td>
+                            <td width="80%"><img id="directionarrow" width="80%" height="20px" src="~/images/dirarrow.png" /></td>
+                            <td width="10%"></td>
+                        </tr>
+                    </table>*@
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr />
+                </div>
+            </div>
+            <div id="MyHand" class="flex-container"></div>
         </div>
     </div>
-    <div id="MyHand" class="flex-container"></div>
 </div>
 <!-- The Modal -->
 <div id="myModal" class="modal">
