@@ -209,6 +209,10 @@ body {
     grid-column: 1/-1;
 }
 
+
+
+
+
 .deckarea {
    margin-left: auto; 
    margin-right:auto;
@@ -251,3 +255,93 @@ body {
         text-decoration: none;
         cursor: pointer;
     }
+
+.history {
+    font-size: medium;
+}
+
+.historyCard {
+    background: url("/images/cards_deck_thumbs.png");
+    width: 19px;
+    height: 28px;
+    display: inline-block;
+    padding: 2px 2px 2px 2px;
+    margin: 1px;
+ 
+}
+
+
+.historyCardRed {
+    background-position-y: 0px;
+}
+
+.historyCardBlue {
+    background-position-y: -81px;
+}
+
+.historyCardGreen {
+    background-position-y: -54px;
+}
+
+.historyCardYellow {
+    background-position-y: -27px;
+}
+
+.historyCard0 {
+    background-position-x: -0px;
+}
+
+.historyCard1 {
+    background-position-x: -18px;
+}
+
+.historyCard2 {
+    background-position-x: -36px;
+}
+
+.historyCard3 {
+    background-position-x: -54px;
+}
+
+.historyCard4 {
+    background-position-x: -72px;
+}
+
+.historyCard5 {
+    background-position-x: -90px;
+}
+
+.historyCard6 {
+    background-position-x: -108px;
+}
+
+.historyCard7 {
+    background-position-x: -126px;
+}
+
+.historyCard8 {
+    background-position-x: -144px;
+}
+
+.historyCard9 {
+    background-position-x: -162px;
+}
+
+.historyCardS {
+    background-position-x: -180px;
+}
+
+.historyCardR {
+    background-position-x: -198px;
+}
+
+.historyCardD {
+    background-position-x: -216px;
+}
+.historyCardW {
+    background-position-x: -234px;
+}
+
+.historyCard-4 {
+    background-position-x: -252px;
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
@@ -115,6 +116,12 @@ namespace Eins.Core
             Who = who;
             What = what;
         }
+    }
+
+    public class CardCount
+    {
+        public string Who { get; set; }
+        public int Cards { get; set; }
     }
 
     public class Room
@@ -246,6 +253,21 @@ namespace Eins.Core
             PlayerIndex = n;
         }
 
+        public List<CardCount> CountCards()
+        {
+            List<CardCount> counts = new List<CardCount>();
+            foreach(Player p in Players)
+            {
+                if(p.Active)
+                {
+                    CardCount cc = new CardCount();
+                    cc.Who = p.Name;
+                    cc.Cards = p.Hand.Count;
+                    counts.Add(cc);
+                }
+            }
+            return counts;
+        }
         public void SetPlayers()
         {
             Players.RemoveAll(x => !x.Active); 

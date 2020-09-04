@@ -4,7 +4,7 @@
 
 
 <div class="container-fluid">
-    <input type="button" id="break" value="Debug" onclick="debug()" />
+    @*<input type="button" id="break" value="Debug" onclick="debug()" />*@
     <div id="Lobby">
         <div class="jumbotron maintitle">
             <h1>Eins</h1>
@@ -54,11 +54,16 @@
         <div class="card" id="patchNotescard">
             <div class="card-header">
                 <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#patchNotes" aria-expanded="false" aria-controls="patchNotes">
-                    v1.1 Patch Notes
+                    v1.2 Patch Notes
                 </button>
             </div>
             <div id="patchNotes" class="collapse">
                 <div id="patches" class="history card-body">
+                    <p>v1.2</p>
+                    <p>Added card counts for players</p>
+                    <p>Fixed issue where player names rotated automatically</p>
+                    <p>Fixed issue where card history remained from prior game.</p>
+                    <p>v1.1</p>
                     <p>Added current player name at top of screen.  Moved player name/room to bottom of screen.</p>
                     <p>Fixed issue with green cards being cut off.</p>
                     <p>Added history of plays section below Hand section.</p>
@@ -66,6 +71,7 @@
                     <p>Indicate when discard pile is shuffled back into deck when deck is exhausted.</p>
                     <p>Fixed issue when playing as single player and last card is a draw card.  This now behaves correctly and deals the cards but does not end the game.</p>
                     <p>Added patch notes (this) to lobby section.</p>
+
                 </div>
             </div>
         </div>
@@ -84,7 +90,6 @@
     <div class="card">
         <div class="card-header">Players</div>
         <div class="card-body">
-            @*<ol id="Players"></ol>*@
             <table class="table">
                 <tbody id="Players"></tbody>
             </table>
@@ -98,7 +103,7 @@
     <div class="card">
         <div class="card-header text-center">
             <div>Now Playing</div>
-            <div class="carousel slide" id="nowPlaying">
+            <div class="carousel slide" id="nowPlaying" data-interval="false">
                 <div class="carousel-inner" id="currentPlayerList"></div>
             </div>
         </div>
@@ -124,29 +129,29 @@
                 <div class="card-header">
                     <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#historyPanel" aria-expanded="false" aria-controls="historyPanel">
                         History
-                    </button>
-                </div>
-                <div id="historyPanel" class="collapse">
-                    <div class="card-body">
-                        <p>Most recent play on top:</p>
-                        <div id="History" class="history"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card" id="cardCount">
-                <div class="card-header">
-                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#countPanel" aria-expanded="false" aria-controls="countPanel">
+                    </button> <button class="btn btn-info" style="float: right;" type="button" data-toggle="collapse" data-target="#countPanel" aria-expanded="false" aria-controls="countPanel">
                         Card Counts
                     </button>
                 </div>
                 <div id="countPanel" class="collapse">
-                    <div id="counts" class="history card-body"></div>
+                    <div class="card-body">
+                        <div id="counts" class="history"></div>
+                    </div>
+                </div>
+                <div id="historyPanel" class="collapse">
+                    <div class="card-body">
+                        <div>
+                            <p>Most recent play on top:</p>
+                            <div id="History" class="history"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="text-center maintitle" id="tableroomid"></div>
         </div>
+        <div class="text-center maintitle" id="tableroomid"></div>
     </div>
 </div>
+
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <!-- Modal content -->

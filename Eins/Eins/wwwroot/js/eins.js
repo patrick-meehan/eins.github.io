@@ -48,6 +48,8 @@ function RoomIDChanged() {
 
 function CleanUp() {
     $('#MyHand').empty();//clear the hand
+    $('#History').empty();
+    $('#counts').empty();
     //reset to defaults
     CanPlayDraw4 = false;
     YoureUp = false;
@@ -220,9 +222,10 @@ connection.on("DealCard", function (card) {
     hand.appendChild(div);
 });
 
-connection.on("UpdateHistory", function (history) {
+connection.on("UpdateHistory", function (history, cardcounts) {
     //TODO: work out the history some more
     $('#History').empty();
+    $('#counts').empty();
     for (let i = history.length - 1; i > -1; i--) {
         let name = history[i].who;
         let what = history[i].what;
@@ -243,6 +246,19 @@ connection.on("UpdateHistory", function (history) {
         let hist = document.getElementById("History");
         hist.appendChild(div);
     }
+    let tbl = document.createElement("table");
+    for (let c = 0; c < cardcounts.length; c++) {
+        let r = tbl.insertRow();
+        let n = r.insertCell(0);
+        let nc = r.insertCell(1);
+        n.innerText = cardcounts[c].who;
+        nc.innerText = cardcounts[c].cards;
+        //let entry = '<tr><td>' +  + '</td><td>' +  + '</td></tr>'
+        //tbl.appendChild(entry);
+    }
+    let cc = document.getElementById("counts");
+    cc.appendChild(tbl);
+
 });
 
 connection.start().then(function () {

@@ -240,12 +240,13 @@ namespace Eins.Hubs
                 played = curroom.DiscardPile[curroom.DiscardPile.Count - 1];
             }
             curroom.NextPlayer();
+            List<CardCount> cc = curroom.CountCards();
             foreach (Player p in curroom.Players)
             {
                 if (p.Active)
                 {
                     await Clients.Client(p.ID).SendAsync("UpdateDiscard", played, curroom.PlayerIndex);
-                    await Clients.Client(p.ID).SendAsync("UpdateHistory", curroom.History);
+                    await Clients.Client(p.ID).SendAsync("UpdateHistory", curroom.History, cc);
                 }
             }
             if (player.Hand.Count() > 0)
