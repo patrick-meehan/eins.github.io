@@ -7,11 +7,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Azure.Identity;
+using System.Diagnostics;
 
 namespace Eins
 {
+
     public class Program
     {
+       
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -19,7 +22,7 @@ namespace Eins
         //TODO: Comment out  .ConfigureAppConfigurati... section for local running
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-
+#if (!DEBUG)
             .ConfigureAppConfiguration((context, config) =>
 {
     var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
@@ -27,6 +30,7 @@ namespace Eins
     keyVaultEndpoint,
     new DefaultAzureCredential());
 })
+#endif
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

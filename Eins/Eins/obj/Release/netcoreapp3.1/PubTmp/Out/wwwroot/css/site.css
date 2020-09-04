@@ -122,14 +122,14 @@ body {
 }
 
 .CardBlack{
-    background-position-y:-441px;
+    background-position-y:-440px;
 }
 
 .CardRed{
     background-position-y:0px;
 }
 .CardBlue{
-    background-position-y: -331px;
+    background-position-y: -330px;
 }
 .CardGreen{
     background-position-y: -220px;
@@ -231,8 +231,8 @@ body {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
+    margin: 25% auto; /* 15% from the top and centered */
+    padding: 10px;
     border: 1px solid #888;
     width: 50%; /* Could be more or less, depending on screen size */
 }

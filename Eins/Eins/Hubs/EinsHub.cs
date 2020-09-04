@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Server.HttpSys;
 using System.Linq;
 using System;
+using Microsoft.Identity.Client;
 
 namespace Eins.Hubs
 {
@@ -14,21 +15,88 @@ namespace Eins.Hubs
     {
         private static List<Room> Rooms = new List<Room>();
 
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            string clientid = Context.ConnectionId;
+            bool foundit = false;
+            bool RoomOccupied = false;
+            Room remove = null;
+            foreach (Room r in Rooms)
+            {
+                foreach (Player p in r.Players)
+                {
+                    if (p.ID == clientid)
+                    {
+                        p.Active = false;
+                        foundit = true;
+                    }
+                    RoomOccupied = RoomOccupied || p.Active;
+                }
+                if (foundit)
+                {
+                    if (!RoomOccupied) remove = r;
+                    break;
+                }
+
+            }
+            if (remove != null) Rooms.Remove(remove);
+            return base.OnDisconnectedAsync(exception);
+        }
         public async Task<string> StartRoom(string user)
         {
             Room newroom = new Room();
             Player p = new Player();
             p.Name = user;
             p.ID = Context.ConnectionId;
+            p.Active = true;
             newroom.Players.Add(p);
             Rooms.Add(newroom);
-            foreach (Player np in newroom.Players)
-            {
-                await Clients.Client(np.ID).SendAsync("Players", newroom.Players);
-            }
+            await SendPlayers(newroom.RoomID);
             return newroom.RoomID;
 
         }
+
+
+        //TODO: Consider logic to prevent same username being used.
+        public string RejoinRoom(string roomid, string user, string stage)
+        {
+            Room r = Rooms.Find(x => x.RoomID == roomid);
+            if (r != null)
+            {
+                Player p = r.Players.Find(y => y.Name == user);
+                if (p != null)
+                {
+                    p.Active = true;
+                    p.ID = Context.ConnectionId; //This will have been updated.
+                    SendPlayers(roomid);
+                    if (stage == "table")
+                    {
+                        Card discard = r.DiscardPile[r.DiscardPile.Count - 1];
+                        SendPlayers(roomid); // shouldn't bother actives
+                        Clients.Client(p.ID).SendAsync("UpdateDiscard", discard, r.PlayerIndex);
+
+                        p.CalcPlayDraw4(discard);
+                        Clients.Client(p.ID).SendAsync("UpdateCanPlayDraw4", p.CanPlayDraw4);
+                        foreach (Card c in p.Hand)
+                        {
+                            Clients.Client(p.ID).SendAsync("DealCard", c);
+                        }
+                        Clients.Client(p.ID).SendAsync("StartGame", p.ToLeft, p.ToRight); //DO NOT UPDATE PLAYERS.
+                        if (p.ID == r.Players[r.PlayerIndex].ID) Clients.Client(p.ID).SendAsync("YourTurn");
+                    }
+                    return "Rejoined";
+                }
+                else
+                {
+                    return "NoUser";
+                }//found room
+            }
+            else
+            {
+                return "NoRoom";
+            }
+        }
+
         public async Task<string> JoinRoom(string user, string roomid)
         {
             Room r = Rooms.Find(x => x.RoomID == roomid);
@@ -40,20 +108,30 @@ namespace Eins.Hubs
                 }
                 else
                 {
+                    if (r.Players.FindAll(x => x.Name == user).Count() > 0) return "NameInUse";
                     Player p = new Player();
                     p.Name = user;
                     p.ID = Context.ConnectionId;
+                    p.Active = true;
                     r.Players.Add(p);
-                    foreach (Player np in r.Players)
-                    {
-                        await Clients.Client(np.ID).SendAsync("Players", r.Players);
-                    }
+                    await SendPlayers(roomid);
                     return "Joined";
                 }
             }
             else
             {
                 return "Invalid";
+            }
+        }
+
+        //This method used by both new and join room plus 
+        //  can be called for a rejoin operation from the client
+        public async Task SendPlayers(string roomid)
+        {
+            Room r = Rooms.Find(x => x.RoomID == roomid);
+            foreach (Player np in r.Players)
+            {
+                if (np.Active) await Clients.Client(np.ID).SendAsync("Players", r.Players, r.PlayerIndex);
             }
         }
 
@@ -67,15 +145,16 @@ namespace Eins.Hubs
             foreach (Player p in curroom.Players)
             {
 
-                Clients.Client(p.ID).SendAsync("StartGame", p.ToLeft, p.ToRight);
+                if (p.Active) Clients.Client(p.ID).SendAsync("StartGame", p.ToLeft, p.ToRight);
             }
             for (int q = 0; q < 7; q++)
             {
                 foreach (Player p in curroom.Players)
                 {
+
                     next = curdeck.Cards[0];
                     p.Hand.Add(next);
-                    Clients.Client(p.ID).SendAsync("DealCard", next);
+                    if (p.Active) Clients.Client(p.ID).SendAsync("DealCard", next);
                     curdeck.Cards.RemoveAt(0);
                 }
             }
@@ -83,7 +162,7 @@ namespace Eins.Hubs
             //To avoid complex logic, we skip wilds from the top of deck.
             //  it'll be lucky for the next persons to draw.
             next = curdeck.Cards[0];
-            while (next.Wild)
+            while (next.Wild || "DRS".Contains(next.Face))
             {
                 c++;
                 next = curdeck.Cards[c];
@@ -93,7 +172,7 @@ namespace Eins.Hubs
 
             foreach (Player p in curroom.Players)
             {
-                Clients.Client(p.ID).SendAsync("UpdateDiscard", next);
+                if (p.Active) Clients.Client(p.ID).SendAsync("UpdateDiscard", next);
             }
             UpdateCanPlayDraw4(roomid);
             Clients.Client(curroom.Players[0].ID).SendAsync("YourTurn");
@@ -111,7 +190,7 @@ namespace Eins.Hubs
 
         }
 
-        public void PlayCard(string parms)
+        public async Task PlayCard(string parms)
         {
             string[] passed = parms.Split(',');
             string roomid = passed[0];
@@ -119,20 +198,16 @@ namespace Eins.Hubs
             string newcolor = passed[2];
             Room curroom = Rooms.Find(x => x.RoomID == roomid);
             Player player = curroom.Players.Find(p => p.ID == Context.ConnectionId);
-            Clients.Client(player.ID).SendAsync("TurnOver");
-            bool lastcard = false;
+            await Clients.Client(player.ID).SendAsync("TurnOver");
+            Card played;
             //TODO: If there is only one player then you need to verify they are still last card otherwise +2/4 will break game.
             if (newcolor != "EndTurn")
             {
-                Card played = player.Hand.Find(c => c.CardID == cardid);
+                played = player.Hand.Find(c => c.CardID == cardid);
+                curroom.RecordHistory(player.Name, played);
                 player.Hand.Remove(played);
-                lastcard = player.Hand.Count == 0;
                 played.Color = newcolor;
                 curroom.DiscardPile.Add(played);
-                foreach (Player p in curroom.Players)
-                {
-                    Clients.Client(p.ID).SendAsync("UpdateDiscard", played);
-                }
                 UpdateCanPlayDraw4(roomid);
                 switch (played.Face)
                 {
@@ -140,29 +215,42 @@ namespace Eins.Hubs
                         curroom.Direction *= -1;
                         foreach (Player p in curroom.Players)
                         {
-                            Clients.Client(p.ID).SendAsync("Reverse", curroom.Direction);
+                            if (p.Active) await Clients.Client(p.ID).SendAsync("Reverse", curroom.Direction);
                         }
                         break;
                     case "S":
                         curroom.NextPlayer();
-                        Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "You were Skipped!");
+                        await Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "You were Skipped!");
                         break;
                     case "D":
                         curroom.NextPlayer();
-                        Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "Draw 2!");
+                        await Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "Draw 2!");
                         DrawCard(roomid, 2, curroom.Players[curroom.PlayerIndex]);
                         break;
                     case "-4":
                         curroom.NextPlayer();
-                        Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "Have some more cards! +4 to you.");
+                        await Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("Notify", "Have some more cards! +4 to you.");
                         DrawCard(roomid, 4, curroom.Players[curroom.PlayerIndex]);
                         break;
                 }
             }
-            curroom.NextPlayer();
-            if (!lastcard)
+            else
             {
-                Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("YourTurn");
+                curroom.RecordHistory(player.Name, null);
+                played = curroom.DiscardPile[curroom.DiscardPile.Count - 1];
+            }
+            curroom.NextPlayer();
+            foreach (Player p in curroom.Players)
+            {
+                if (p.Active)
+                {
+                    await Clients.Client(p.ID).SendAsync("UpdateDiscard", played, curroom.PlayerIndex);
+                    await Clients.Client(p.ID).SendAsync("UpdateHistory", curroom.History);
+                }
+            }
+            if (player.Hand.Count() > 0)
+            {
+                await Clients.Client(curroom.Players[curroom.PlayerIndex].ID).SendAsync("YourTurn");
             }
             else
             {
@@ -178,12 +266,10 @@ namespace Eins.Hubs
                     {
                         note = string.Format("Player {0} won this game.", winner.Name);
                     }
-                    Clients.Client(p.ID).SendAsync("EndGame", note);
-
-
-
+                    if (p.Active) await Clients.Client(p.ID).SendAsync("EndGame", note);
 
                 }
+                await SendPlayers(roomid);
             }
 
         }
@@ -194,14 +280,26 @@ namespace Eins.Hubs
             if (player == null) { player = curroom.Players.Find(p => p.ID == Context.ConnectionId); }
             for (int c = 0; c < howMany; c++)
             {
-                if (curroom.RoomDeck.Cards.Count == 0) curroom.Reshuffle();  //We won't need to update the discard to the clients since it did not change.
+                if (curroom.RoomDeck.Cards.Count == 0)
+                {
+                    foreach (Player p in curroom.Players)
+                    {
+                        Clients.Client(p.ID).SendAsync("Notify", "Deck empty, reshuffling."); //note if you change this wording, update the notice in eins.js
+                    }
+                    curroom.Reshuffle();
+                }//We won't need to update the discard to the clients since it did not change.
                 Card next = curroom.RoomDeck.Cards[0];
                 player.Hand.Add(next);
                 Clients.Client(player.ID).SendAsync("DealCard", next);
                 curroom.RoomDeck.Cards.RemoveAt(0);
             }
         }
-
-
+#if(DEBUG)
+        public void Debug()
+        {
+            //dummy method to allow for inspecting hub state
+            int wait = 0;
+        }
+#endif
     }
 }

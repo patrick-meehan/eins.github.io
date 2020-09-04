@@ -84,6 +84,8 @@ namespace Eins.Core
         public string ToLeft { get; set; }
         public string ToRight { get; set; }
 
+        public bool Active { get; set; }
+
         public List<Card> Hand = new List<Card>();
 
         public bool CanPlayDraw4 { get; set; }
@@ -103,8 +105,21 @@ namespace Eins.Core
 
     }
 
+    public class PlayHistoryEvent
+    {
+        public string Who { get; set; }
+        public Card What { get; set; }
+
+        public PlayHistoryEvent(string who, Card what)
+        {
+            Who = who;
+            What = what;
+        }
+    }
+
     public class Room
     {
+        const int maxHistoryCount = 10;
         public string RoomID { get; set; }
         public Deck RoomDeck { get; set; }
 
@@ -117,6 +132,8 @@ namespace Eins.Core
         public List<Card> DiscardPile = new List<Card>();
 
         public List<Player> Players = new List<Player>();
+
+        public List<PlayHistoryEvent> History = new List<PlayHistoryEvent>();
         public Room()
         {
             RoomID = GenID();
@@ -125,6 +142,11 @@ namespace Eins.Core
             PlayerIndex = 0;
         }
 
+        public void RecordHistory(string Name, Card card)
+        {
+            History.Add(new PlayHistoryEvent(Name, card));
+            if (History.Count >= maxHistoryCount) History.Remove(History[0]);
+        }
         public Player EndGame()
         {
             Player winner = ScoreRoom();
@@ -132,7 +154,9 @@ namespace Eins.Core
             Direction = 1;
             PlayerIndex = 0;
             DiscardPile.Clear();
+            History.Clear();
             int pcount = Players.Count;
+            //Delete all the hands and rotate players
             if (pcount > 1)
             {
                 Player first = Players[0];
@@ -224,6 +248,10 @@ namespace Eins.Core
 
         public void SetPlayers()
         {
+            Players.RemoveAll(x => !x.Active); 
+            //Drop any that dropped when dealing, otherwise
+            //  a player could rejoin that does not have any cards
+            //  or they get dealt cards and hold up play.
             for (int n = 0; n < Players.Count; n++)
             {
                 int l = n - 1;
@@ -232,7 +260,6 @@ namespace Eins.Core
                 if (r == Players.Count) r = 0;
                 Players[n].ToLeft = Players[l].Name;
                 Players[n].ToRight = Players[r].Name;
-
             }
         }
 

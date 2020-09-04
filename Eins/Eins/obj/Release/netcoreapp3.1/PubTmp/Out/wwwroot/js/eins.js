@@ -17,21 +17,37 @@ const NoticeTimeShort = 1700;
 const NoticeTimeLong = 5000;
 
 
+function debug() {
+    let wait = 0;
+    connection.invoke("Debug");
+}
+
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
 
-connection.on("Players", function (something) {
+connection.on("Players", function (playerList) {
     $("#Players").empty();
-    $(something).each(function () {
+    $('#currentPlayerList').empty();
+    let first = 0;
+    $(playerList).each(function () {
         $("#Players").append("<li>" + this.name + "</li>");
+        if (first == 0) {
+            $('#currentPlayerList').append('<div class="carousel-item active">' + this.name + '</div>');
+            first = 1;
+        }
+        else {
+            $('#currentPlayerList').append('<div class="carousel-item">' + this.name + '</div>');
+        }
     });
+    $('.carousel').carousel('pause');
 });
 
-connection.on("UpdateDiscard", function (card) {
+connection.on("UpdateDiscard", function (card,currentPlayer) {
     discardcolor = card.color;
     discardface = card.face;
     let dp = document.getElementById("discardPile");
     dp.className = card.cardClass;
+    $('#nowPlaying').carousel(currentPlayer);
 });
 
 connection.on("UpdateCanPlayDraw4", function (canplay) { CanPlayDraw4 = canplay; });

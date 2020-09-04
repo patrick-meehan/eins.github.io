@@ -1,7 +1,11 @@
 ﻿"use strict";
+const NoticeTimeShort = 1700;
+const NoticeTimeLong = 5000;
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/EinsHub").build();
-var roomid = '';
+var connection = new signalR.HubConnectionBuilder().withUrl("/EinsHub").withAutomaticReconnect().build();
+var currentscreen = window.sessionStorage.getItem("CurrentScreen"); // lobby, waiting, table
+var myname = window.sessionStorage.getItem("MyName");
+var roomid = window.sessionStorage.getItem("RoomID");
 var discardcolor = '';
 var discardface = '';
 var CanPlayDraw4 = false;
@@ -11,44 +15,15 @@ var playedwild = '';
 var hasDrawn = false;
 var noticeup = false;
 var tablelocked = false;
-var myname = '';
-
-const NoticeTimeShort = 1700;
-const NoticeTimeLong = 5000;
 
 
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
 
-connection.on("Players", function (something) {
-    $("#Players").empty();
-    $(something).each(function () {
-        $("#Players").append("<li>" + this.name + "</li>");
-    });
-});
-
-connection.on("UpdateDiscard", function (card) {
-    discardcolor = card.color;
-    discardface = card.face;
-    let dp = document.getElementById("discardPile");
-    dp.className = card.cardClass;
-});
-
-connection.on("UpdateCanPlayDraw4", function (canplay) { CanPlayDraw4 = canplay; });
-
-connection.on("StartGame", function (left, right) {
-    $('#waitingroom').hide();
-    $('#tableroomid').text(myname + ' in Room:' + roomid);
-    $('#leftplayer').text(left);
-    $('#rightplayer').text(right);
-    $('#gametable').show();
-    tablelocked = true;
-});
-
-connection.on("EndGame", function (winnote) {
-    ShowNotice(winnote, NoticeTimeLong);
-    setTimeout(CleanUp, NoticeTimeLong + 500);
-});
+function debug() {
+    let wait = 0;
+    connection.invoke("Debug");
+}
 
 function NameChanged() {
     let nm = $('#userInput').val();
@@ -71,10 +46,6 @@ function RoomIDChanged() {
     }
 }
 
-$('#userInput').on('input', NameChanged);
-$('#RoomID').on('input', RoomIDChanged);
-$('#endTurn').hide();
-
 function CleanUp() {
     $('#MyHand').empty();//clear the hand
     //reset to defaults
@@ -83,31 +54,16 @@ function CleanUp() {
     wildcolor = '';
     playedwild = '';
     hasDrawn = false;
+    document.getElementById("directionarrow").style = 'transform: scaleX("1")';
+    window.sessionStorage.setItem("Dir", 1);
     $('#waitingroom').show();
     $('#gametable').hide();
     $('#endTurn').hide();
     tablelocked = false;
 }
 
-connection.on("TurnOver", function () {
-    YoureUp = false;
-    let tbl = document.getElementById("MyHand");
-    tbl.style.backgroundColor = "white";
-
-});
-
-connection.on("YourTurn", function () {
-    YoureUp = true;
-    hasDrawn = false;
-    let tbl = document.getElementById("MyHand");
-    tbl.style.backgroundColor = "teal";
-});
-
-connection.on("Notify", function (notification) {
-    ShowNotice(notification, NoticeTimeShort);
-});
-
 function ShowNotice(note, t) {
+    if (note == "Deck empty, reshuffling.") { $('#deck').hide(); }
     noticeup = true;
     $('#notification').text(note);
     $('#Notice').show();
@@ -115,100 +71,24 @@ function ShowNotice(note, t) {
 
 }
 
-connection.on("Reverse", function (dir) {
-    document.getElementById("directionarrow").style = "transform: scaleX(" + dir + ")";
-    ShowNotice("Reversed!", NoticeTimeShort);
-});
+function GoIntoWiating() {
+    $("#Lobby").hide();
+    $("#waitingroom").show();
+    currentscreen = "waiting";
+    window.sessionStorage.setItem("CurrentScreen", "waiting");
+}
 
 var CloseNotice = function () {
     $('#Notice').hide();
     noticeup = false;
+    $('#deck').show(); //just in case it was hidden for reshuffle
 
-}
-
-connection.on("DealCard", function (card) {
-    let div = document.createElement("div");
-    div.className = card.cardClass;
-    div.innerHTML = '&nbsp;';
-    div.dataset.cardcolor = card.color;
-    div.dataset.cardface = card.face;
-    div.dataset.cardwild = card.wild;
-    div.dataset.cardID = card.cardID;
-    div.addEventListener("click", CardEvents);
-    let hand = document.getElementById("MyHand");
-    hand.appendChild(div);
-});
-
-connection.start().then(function () {
-    document.getElementById("newbutton").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
-
-function GoIntoWiating() {
-    $("#Lobby").hide();
-    $("#waitingroom").show();
-}
-
-document.getElementById("newbutton").addEventListener("click", function (event) {
-    myname = document.getElementById("userInput").value;
-    connection.invoke("StartRoom", myname).then(function (result) {
-        $('#roomcode').text(result);
-        roomid = result;
-        GoIntoWiating();
-    }).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});
-
-document.getElementById("deck").addEventListener("click", function (event) {
-    if (YoureUp && !hasDrawn) {
-        $('#endTurn').show();
-        hasDrawn = true;
-        connection.invoke("DrawCard", roomid, 1, null).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
-    event.preventDefault();
-});
-//TODO: Add scores to users in lobby
-document.getElementById("joinButton").addEventListener("click", function (event) {
-    myname = $('#userInput').val();
-    let raw = $("#RoomID").val();
-    let joinroom = raw.toUpperCase();
-    connection.invoke("JoinRoom", myname, joinroom).then(function (result) {
-        switch (result) {
-            case "Joined":
-                roomid = joinroom;
-                $('#roomcode').text(roomid);
-                GoIntoWiating();
-                break;
-            case "Locked":
-                ShowNotice("Sorry, this game is in progress.  Wait for the current round to end.", NoticeTimeLong);
-                break;
-            case "Invalid":
-                ShowNotice("Can't find room " + joinroom + '! Check spelling.', NoticeTimeLong);
-                break;
-        }
-    }).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});
-
-document.getElementById("dealbutton").addEventListener("click", function (event) {
-    connection.invoke("Deal", roomid).catch(function (err) {
-        return console.error(err.toString());
-    });
-
-    event.preventDefault();
-});
+};
 
 var EndTurnClick = function (event) {
     $('#endTurn').hide();
     connection.invoke("PlayCard", roomid + ',0,EndTurn'); //This is a dummy card to signal no card played, but process all else.
-}
+};
 
 var CardEvents = function (event) {
     if (YoureUp) {
@@ -241,7 +121,7 @@ var CardEvents = function (event) {
         }
         //TODO: Else signal not an appropriate card.
     }
-}
+};
 
 var WildColorClick = function (newcolor) {
     wildcolor = newcolor;
@@ -255,4 +135,220 @@ var WildColorClick = function (newcolor) {
     });
     let modal = document.getElementById("myModal");
     modal.style.display = "none";
+};
+
+connection.on("Players", function (playerList, current) {
+    $("#Players").empty();
+    $('#currentPlayerList').empty();
+    let first = 0;
+    $(playerList).each(function () {
+        //$("#Players").append("<li>" + this.name + "</li>");
+        let score = (this.score > 0) ? this.score.toString() : '';
+        let elem = '<tr><td>' + this.name + '</td><td>' + score + '</td></tr>';
+        $('#Players').append(elem);
+        if (first == 0) {
+            $('#currentPlayerList').append('<div class="carousel-item active">' + this.name + '</div>');
+            first = 1;
+        }
+        else {
+            $('#currentPlayerList').append('<div class="carousel-item">' + this.name + '</div>');
+        }
+    });
+    $('.carousel').carousel('pause');
+    $('.carousel').carousel(current);
+});
+
+connection.on("UpdateDiscard", function (card, currentPlayer) {
+    discardcolor = card.color;
+    discardface = card.face;
+    let dp = document.getElementById("discardPile");
+    dp.className = card.cardClass;
+    $('.carousel').carousel(currentPlayer);
+});
+
+connection.on("UpdateCanPlayDraw4", function (canplay) { CanPlayDraw4 = canplay; });
+
+connection.on("StartGame", function (left, right) {
+    $('#waitingroom').hide();
+    $('#tableroomid').text(myname + ' in Room:' + roomid);
+    $('#leftplayer').text(left);
+    $('#rightplayer').text(right);
+    $('#gametable').show();
+    window.sessionStorage.setItem("CurrentScreen", "table");
+    tablelocked = true;
+});
+
+connection.on("EndGame", function (winnote) {
+    ShowNotice(winnote, NoticeTimeLong);
+    setTimeout(CleanUp, NoticeTimeLong + 500);
+});
+
+connection.on("TurnOver", function () {
+    YoureUp = false;
+    let tbl = document.getElementById("MyHand");
+    tbl.style.backgroundColor = "white";
+
+});
+
+connection.on("YourTurn", function () {
+    YoureUp = true;
+    hasDrawn = false;
+    let tbl = document.getElementById("MyHand");
+    tbl.style.backgroundColor = "teal";
+});
+
+connection.on("Notify", function (notification) {
+    ShowNotice(notification, NoticeTimeShort);
+});
+
+connection.on("Reverse", function (dir) {
+    document.getElementById("directionarrow").style = "transform: scaleX(" + dir + ")";
+    window.sessionStorage.setItem("Dir", dir);
+    ShowNotice("Reversed!", NoticeTimeShort);
+});
+
+connection.on("DealCard", function (card) {
+    let div = document.createElement("div");
+    div.className = card.cardClass;
+    div.innerHTML = '&nbsp;';
+    div.dataset.cardcolor = card.color;
+    div.dataset.cardface = card.face;
+    div.dataset.cardwild = card.wild;
+    div.dataset.cardID = card.cardID;
+    div.addEventListener("click", CardEvents);
+    let hand = document.getElementById("MyHand");
+    hand.appendChild(div);
+});
+
+connection.on("UpdateHistory", function (history) {
+    //TODO: work out the history some more
+    $('#History').empty();
+    for (let i = history.length - 1; i > -1; i--) {
+        let name = history[i].who;
+        let what = history[i].what;
+        let entry = '';
+        let div = document.createElement("div");
+        div.classList.add('history');
+        if (what == null) {
+            div.innerText = name + ' did not play a card.';
+        }
+        else {
+            div.innerText = name + ' played ';
+            let cdiv = document.createElement("span");
+            cdiv.innerHTML = '&nbsp;';
+            let hclass = what.cardClass.replace(/Card/g, "historyCard");
+            cdiv.className = hclass;
+            div.appendChild(cdiv);
+        }
+        let hist = document.getElementById("History");
+        hist.appendChild(div);
+    }
+});
+
+connection.start().then(function () {
+    document.getElementById("newbutton").disabled = false;
+    CheckRestart();
+}).catch(function (err) {
+    return console.error(err.toString());
+});
+
+document.getElementById("newbutton").addEventListener("click", function (event) {
+    myname = document.getElementById("userInput").value;
+    connection.invoke("StartRoom", myname).then(function (result) {
+        $('#roomcode').text(result);
+        roomid = result;
+        window.sessionStorage.setItem("RoomID", result);
+        GoIntoWiating();
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+document.getElementById("joinButton").addEventListener("click", function (event) {
+    myname = $('#userInput').val();
+    let raw = $("#RoomID").val();
+    let joinroom = raw.toUpperCase();
+    connection.invoke("JoinRoom", myname, joinroom).then(function (result) {
+        switch (result) {
+            case "Joined":
+                roomid = joinroom;
+                $('#roomcode').text(roomid);
+                GoIntoWiating();
+                break;
+            case "Locked":
+                ShowNotice("Sorry, this game is in progress.  Wait for the current round to end.", NoticeTimeLong);
+                break;
+            case "Invalid":
+                ShowNotice("Can't find room " + joinroom + '! Check spelling.', NoticeTimeLong);
+                break;
+            case "NameInUse":
+                ShowNotice("Screen name already present in " + joinroom + ".  Please choose a different name.", NoticeTimeLong);
+                break;
+        }
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+document.getElementById("dealbutton").addEventListener("click", function (event) {
+    connection.invoke("Deal", roomid).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    event.preventDefault();
+});
+
+document.getElementById("deck").addEventListener("click", function (event) {
+    if (YoureUp && !hasDrawn) {
+        $('#endTurn').show();
+        hasDrawn = true;
+        connection.invoke("DrawCard", roomid, 1, null).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+    event.preventDefault();
+});
+
+$('#userInput').on('input', NameChanged);
+$('#RoomID').on('input', RoomIDChanged);
+$('#endTurn').hide();
+
+$('#userInput').blur(function () {
+    window.sessionStorage.setItem("MyName", $('#userInput').val());
+});
+
+//if roomid isn't blank, then we need to call the server and setup the page.
+
+function CheckRestart() {
+    if (currentscreen == null) {
+        //new session
+        currentscreen = "lobby";
+        window.sessionStorage.setItem("CurrentScreen", currentscreen);
+    }
+    else {
+        $('#userInput').val(myname);
+        NameChanged();
+        $('RoomID').val(roomid);
+        RoomIDChanged();
+        //reload session here
+        switch (currentscreen) {
+            case "waiting":
+                //need to move to the waiting and pull names
+                connection.invoke("RejoinRoom", roomid, myname, currentscreen);
+                GoIntoWiating();
+                break;
+            case "table":
+                let dir = window.sessionStorage.getItem("Dir");
+                document.getElementById("directionarrow").style = "transform: scaleX(" + dir + ")";
+                connection.invoke("RejoinRoom", roomid, myname, currentscreen).then(function (result) {
+                    //TODO: Process results.
+                });
+                //need to restore the whole hand
+                break;
+        }
+    }
 }
+
+
