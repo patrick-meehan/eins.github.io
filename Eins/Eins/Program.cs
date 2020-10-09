@@ -19,7 +19,6 @@ namespace Eins
         {
             CreateHostBuilder(args).Build().Run();
         }
-        //TODO: Comment out  .ConfigureAppConfigurati... section for local running
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
 #if (!DEBUG)

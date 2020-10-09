@@ -2,7 +2,34 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Azure.Core/1.0.2": {
+      "Azure.Communication.Administration/1.0.0-beta.1": {
+        "type": "package",
+        "dependencies": {
+          "Azure.Communication.Common": "1.0.0-beta.1",
+          "Azure.Core": "1.5.0",
+          "System.Text.Json": "4.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Azure.Communication.Administration.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Communication.Administration.dll": {}
+        }
+      },
+      "Azure.Communication.Common/1.0.0-beta.1": {
+        "type": "package",
+        "dependencies": {
+          "Azure.Core": "1.5.0",
+          "System.Text.Json": "4.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Azure.Communication.Common.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Communication.Common.dll": {}
+        }
+      },
+      "Azure.Core/1.5.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
@@ -10,6 +37,7 @@
           "System.Diagnostics.DiagnosticSource": "4.6.0",
           "System.Memory": "4.5.3",
           "System.Numerics.Vectors": "4.5.0",
+          "System.Text.Json": "4.6.0",
           "System.Threading.Tasks.Extensions": "4.5.2"
         },
         "compile": {
@@ -1356,17 +1384,51 @@
     }
   },
   "libraries": {
-    "Azure.Core/1.0.2": {
-      "sha512": "CA6ZYcT6mWQacksB/9d+izqxSkxx4eS5EEhtad2dAUIb3YTsC/4vWZFfsOMn+4/F5HeYxIGLO3mvfL6AUytfXw==",
+    "Azure.Communication.Administration/1.0.0-beta.1": {
+      "sha512": "E3d/lmBgzNq4OJ6TDAU7aUCcixAGUwznAwAsqRKmuwmt+/UFkRn+I3tey0YLpJ4TAI5DOT9dXKyJ4Cc+t0Ppng==",
       "type": "package",
-      "path": "azure.core/1.0.2",
+      "path": "azure.communication.administration/1.0.0-beta.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "CHANGELOG.md",
         "README.md",
-        "azure.core.1.0.2.nupkg.sha512",
+        "azure.communication.administration.1.0.0-beta.1.nupkg.sha512",
+        "azure.communication.administration.nuspec",
+        "lib/netstandard2.0/Azure.Communication.Administration.dll",
+        "lib/netstandard2.0/Azure.Communication.Administration.xml",
+        "pkgicon.png"
+      ]
+    },
+    "Azure.Communication.Common/1.0.0-beta.1": {
+      "sha512": "ACZcL5AsjgRE1Eixw9WRMPsGBAZ36Avmku17NLc/SNlnoLr/O4dwUByXSQwA0LJE99ttx8Xj74PcOQv0I+sQQQ==",
+      "type": "package",
+      "path": "azure.communication.common/1.0.0-beta.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "README.md",
+        "azure.communication.common.1.0.0-beta.1.nupkg.sha512",
+        "azure.communication.common.nuspec",
+        "lib/netstandard2.0/Azure.Communication.Common.dll",
+        "lib/netstandard2.0/Azure.Communication.Common.xml",
+        "pkgicon.png"
+      ]
+    },
+    "Azure.Core/1.5.0": {
+      "sha512": "GnGFKQRE9l40zbLa4U5XwfjX8xalYZyp11Y1Ds7Wunk9DM5aqYMgQyYrXhfi4CFZ10Kykfp4RRPFS69MuKSj7Q==",
+      "type": "package",
+      "path": "azure.core/1.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "README.md",
+        "azure.core.1.5.0.nupkg.sha512",
         "azure.core.nuspec",
+        "lib/net461/Azure.Core.dll",
+        "lib/net461/Azure.Core.xml",
         "lib/netstandard2.0/Azure.Core.dll",
         "lib/netstandard2.0/Azure.Core.xml",
         "pkgicon.png"
@@ -5322,6 +5384,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Azure.Communication.Administration >= 1.0.0-beta.1",
       "Azure.Extensions.AspNetCore.Configuration.Secrets >= 1.0.0",
       "Azure.Identity >= 1.1.1",
       "Microsoft.Azure.SignalR >= 1.5.0",
@@ -5329,7 +5392,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\patri\\.nuget\\packages\\": {}
+    "C:\\Users\\patri\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -5340,9 +5404,13 @@
       "packagesPath": "C:\\Users\\patri\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\patri\\source\\repos\\patrick-meehan\\eins.github.io\\Eins\\Eins\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
         "C:\\Users\\patri\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -5365,6 +5433,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Azure.Communication.Administration": {
+            "target": "Package",
+            "version": "[1.0.0-beta.1, )"
+          },
           "Azure.Extensions.AspNetCore.Configuration.Secrets": {
             "target": "Package",
             "version": "[1.0.0, )"
@@ -5400,7 +5472,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

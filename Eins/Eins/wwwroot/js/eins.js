@@ -20,6 +20,16 @@ var tablelocked = false;
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
 
+//window.addEventListener("beforeunload", function (e) {
+//    e.preventDefault();
+//    e.returnValue = '';
+//    if (tablelocked == true) {
+//         return "Please don't navigate away, you will leave the current game";
+//    }
+
+
+//});
+
 function debug() {
     let wait = 0;
     connection.invoke("Debug");
@@ -121,7 +131,6 @@ var CardEvents = function (event) {
                 });
             }
         }
-        //TODO: Else signal not an appropriate card.
     }
 };
 
@@ -140,6 +149,8 @@ var WildColorClick = function (newcolor) {
 };
 
 connection.on("Players", function (playerList, current) {
+    $('.carousel').carousel('pause');
+    $('.carousel').carousel(0);
     $("#Players").empty();
     $('#currentPlayerList').empty();
     let first = 0;
@@ -165,6 +176,7 @@ connection.on("UpdateDiscard", function (card, currentPlayer) {
     discardface = card.face;
     let dp = document.getElementById("discardPile");
     dp.className = card.cardClass;
+    $('.carousel').carousel('pause');
     $('.carousel').carousel(currentPlayer);
 });
 
@@ -223,7 +235,6 @@ connection.on("DealCard", function (card) {
 });
 
 connection.on("UpdateHistory", function (history, cardcounts) {
-    //TODO: work out the history some more
     $('#History').empty();
     $('#counts').empty();
     for (let i = history.length - 1; i > -1; i--) {
@@ -349,6 +360,25 @@ function CheckRestart() {
         $('RoomID').val(roomid);
         RoomIDChanged();
         //reload session here
+
+
+
+        //Change in logic.  Rather than control from client, set state in room
+        //   Between deal and endgame, the room is locked
+        //   which is the same state as the table showing
+        //   
+        //   There are also two rejoin scenarios:
+        //    1. simple refresh, so sessionStorage has values
+        //    2. browser close.
+        //   for opt 1, there are values in sessstorage so we can auto rejoin here.
+        //   opt 2 would require taking action in the lobby
+        //   There is also the issue of a game halting because someone dropped.  
+        //   If an inactive player is up next, then there should be a waiting period before 
+        //     dropping the player from the game.
+
+
+        //   Random thought, perhaps we should setup an expiration period to keep room active for 10 minutes.
+        //     this would allow for a rejoin of a room, but then it eventually clean up.
         switch (currentscreen) {
             case "waiting":
                 //need to move to the waiting and pull names

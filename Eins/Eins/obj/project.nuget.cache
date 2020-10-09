@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "TKmcr5sAZXHH8p3Hp+71/2gRTLcer66NILq0tsIOsBoSR2M9P1xMkic8LB8SB4U2KpcTXi4OSNx6yTzF0qtYVQ==",
+  "dgSpecHash": "nSbFaZof9PcwW659vT9KHqyWpYn/rqhfWOFvrjlebRasFKgF9P7r3RU2SB05rBFgVjW5H1iPPbPuIWueG7ZY3Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\patri\\source\\repos\\patrick-meehan\\eins.github.io\\Eins\\Eins\\Eins.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\patri\\.nuget\\packages\\azure.core\\1.0.2\\azure.core.1.0.2.nupkg.sha512",
+    "C:\\Users\\patri\\.nuget\\packages\\azure.communication.administration\\1.0.0-beta.1\\azure.communication.administration.1.0.0-beta.1.nupkg.sha512",
+    "C:\\Users\\patri\\.nuget\\packages\\azure.communication.common\\1.0.0-beta.1\\azure.communication.common.1.0.0-beta.1.nupkg.sha512",
+    "C:\\Users\\patri\\.nuget\\packages\\azure.core\\1.5.0\\azure.core.1.5.0.nupkg.sha512",
     "C:\\Users\\patri\\.nuget\\packages\\azure.extensions.aspnetcore.configuration.secrets\\1.0.0\\azure.extensions.aspnetcore.configuration.secrets.1.0.0.nupkg.sha512",
     "C:\\Users\\patri\\.nuget\\packages\\azure.identity\\1.1.1\\azure.identity.1.1.1.nupkg.sha512",
     "C:\\Users\\patri\\.nuget\\packages\\azure.security.keyvault.secrets\\4.0.1\\azure.security.keyvault.secrets.4.0.1.nupkg.sha512",

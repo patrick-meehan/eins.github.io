@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Server.HttpSys;
 using System.Linq;
 using System;
 using Microsoft.Identity.Client;
+using Azure.Communication.Administration;
 
 namespace Eins.Hubs
 {
@@ -56,8 +57,6 @@ namespace Eins.Hubs
 
         }
 
-
-        //TODO: Consider logic to prevent same username being used.
         public string RejoinRoom(string roomid, string user, string stage)
         {
             Room r = Rooms.Find(x => x.RoomID == roomid);
@@ -96,7 +95,6 @@ namespace Eins.Hubs
                 return "NoRoom";
             }
         }
-
         public async Task<string> JoinRoom(string user, string roomid)
         {
             Room r = Rooms.Find(x => x.RoomID == roomid);
@@ -172,7 +170,7 @@ namespace Eins.Hubs
 
             foreach (Player p in curroom.Players)
             {
-                if (p.Active) Clients.Client(p.ID).SendAsync("UpdateDiscard", next);
+                if (p.Active) Clients.Client(p.ID).SendAsync("UpdateDiscard", next, 0); //Current player should be zero to start
             }
             UpdateCanPlayDraw4(roomid);
             Clients.Client(curroom.Players[0].ID).SendAsync("YourTurn");
@@ -200,7 +198,6 @@ namespace Eins.Hubs
             Player player = curroom.Players.Find(p => p.ID == Context.ConnectionId);
             await Clients.Client(player.ID).SendAsync("TurnOver");
             Card played;
-            //TODO: If there is only one player then you need to verify they are still last card otherwise +2/4 will break game.
             if (newcolor != "EndTurn")
             {
                 played = player.Hand.Find(c => c.CardID == cardid);

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace Eins.Models
 {
-    public class mainpage
+   
+    public class mainpage 
     {
 
         public static bool IsDebug()
