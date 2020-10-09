@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v3.1": {
       "Eins/1.0.0": {
         "dependencies": {
+          "Azure.Communication.Administration": "1.0.0-beta.1",
           "Azure.Extensions.AspNetCore.Configuration.Secrets": "1.0.0",
           "Azure.Identity": "1.1.1",
           "Microsoft.Azure.SignalR": "1.5.0",
@@ -318,19 +319,51 @@
           "Eins.dll": {}
         }
       },
-      "Azure.Core/1.0.2": {
+      "Azure.Communication.Administration/1.0.0-beta.1": {
+        "dependencies": {
+          "Azure.Communication.Common": "1.0.0-beta.1",
+          "Azure.Core": "1.5.0",
+          "System.Text.Json": "4.6.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Communication.Administration.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.20.47101"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Azure.Communication.Administration.dll": {}
+        }
+      },
+      "Azure.Communication.Common/1.0.0-beta.1": {
+        "dependencies": {
+          "Azure.Core": "1.5.0",
+          "System.Text.Json": "4.6.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Communication.Common.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.20.47101"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Azure.Communication.Common.dll": {}
+        }
+      },
+      "Azure.Core/1.5.0": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
           "System.Buffers": "4.5.0",
           "System.Diagnostics.DiagnosticSource": "4.6.0",
           "System.Memory": "4.5.3",
           "System.Numerics.Vectors": "4.5.0",
+          "System.Text.Json": "4.6.0",
           "System.Threading.Tasks.Extensions": "4.5.2"
         },
         "runtime": {
           "lib/netstandard2.0/Azure.Core.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.220.11003"
+            "assemblyVersion": "1.5.0.0",
+            "fileVersion": "1.500.20.45302"
           }
         },
         "compile": {
@@ -354,7 +387,7 @@
       },
       "Azure.Identity/1.1.1": {
         "dependencies": {
-          "Azure.Core": "1.0.2",
+          "Azure.Core": "1.5.0",
           "Microsoft.Identity.Client": "4.1.0",
           "System.Memory": "4.5.3",
           "System.Security.Cryptography.ProtectedData": "4.5.0",
@@ -373,7 +406,7 @@
       },
       "Azure.Security.KeyVault.Secrets/4.0.1": {
         "dependencies": {
-          "Azure.Core": "1.0.2",
+          "Azure.Core": "1.5.0",
           "System.Memory": "4.5.3",
           "System.Text.Json": "4.6.0",
           "System.Threading.Tasks.Extensions": "4.5.2"
@@ -2885,12 +2918,26 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Azure.Core/1.0.2": {
+    "Azure.Communication.Administration/1.0.0-beta.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-CA6ZYcT6mWQacksB/9d+izqxSkxx4eS5EEhtad2dAUIb3YTsC/4vWZFfsOMn+4/F5HeYxIGLO3mvfL6AUytfXw==",
-      "path": "azure.core/1.0.2",
-      "hashPath": "azure.core.1.0.2.nupkg.sha512"
+      "sha512": "sha512-E3d/lmBgzNq4OJ6TDAU7aUCcixAGUwznAwAsqRKmuwmt+/UFkRn+I3tey0YLpJ4TAI5DOT9dXKyJ4Cc+t0Ppng==",
+      "path": "azure.communication.administration/1.0.0-beta.1",
+      "hashPath": "azure.communication.administration.1.0.0-beta.1.nupkg.sha512"
+    },
+    "Azure.Communication.Common/1.0.0-beta.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ACZcL5AsjgRE1Eixw9WRMPsGBAZ36Avmku17NLc/SNlnoLr/O4dwUByXSQwA0LJE99ttx8Xj74PcOQv0I+sQQQ==",
+      "path": "azure.communication.common/1.0.0-beta.1",
+      "hashPath": "azure.communication.common.1.0.0-beta.1.nupkg.sha512"
+    },
+    "Azure.Core/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GnGFKQRE9l40zbLa4U5XwfjX8xalYZyp11Y1Ds7Wunk9DM5aqYMgQyYrXhfi4CFZ10Kykfp4RRPFS69MuKSj7Q==",
+      "path": "azure.core/1.5.0",
+      "hashPath": "azure.core.1.5.0.nupkg.sha512"
     },
     "Azure.Extensions.AspNetCore.Configuration.Secrets/1.0.0": {
       "type": "package",

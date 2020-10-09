@@ -20,6 +20,16 @@ var tablelocked = false;
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
 
+//window.addEventListener("beforeunload", function (e) {
+//    e.preventDefault();
+//    e.returnValue = '';
+//    if (tablelocked == true) {
+//         return "Please don't navigate away, you will leave the current game";
+//    }
+
+
+//});
+
 function debug() {
     let wait = 0;
     connection.invoke("Debug");
@@ -139,6 +149,8 @@ var WildColorClick = function (newcolor) {
 };
 
 connection.on("Players", function (playerList, current) {
+    $('.carousel').carousel('pause');
+    $('.carousel').carousel(0);
     $("#Players").empty();
     $('#currentPlayerList').empty();
     let first = 0;
@@ -164,6 +176,7 @@ connection.on("UpdateDiscard", function (card, currentPlayer) {
     discardface = card.face;
     let dp = document.getElementById("discardPile");
     dp.className = card.cardClass;
+    $('.carousel').carousel('pause');
     $('.carousel').carousel(currentPlayer);
 });
 

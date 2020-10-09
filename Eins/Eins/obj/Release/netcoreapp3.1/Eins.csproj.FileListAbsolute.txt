@@ -59,3 +59,5 @@ C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Microsoft.Identity.Client.dll
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Azure.Communication.Administration.dll
+C:\Users\patri\source\repos\patrick-meehan\eins.github.io\Eins\Eins\bin\Release\netcoreapp3.1\Azure.Communication.Common.dll
