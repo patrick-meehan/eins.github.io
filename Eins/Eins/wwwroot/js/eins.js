@@ -20,14 +20,12 @@ var tablelocked = false;
 //Disable send button until connection is established
 document.getElementById("newbutton").disabled = true;
 
-window.addEventListener("beforeunload", function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-    if (tablelocked == true) {
-         return "Please don't navigate away, you will leave the current game";
-    }
-
-
+//window.addEventListener("beforeunload", function (e) {
+//    if (tablelocked == true) {
+//        e.preventDefault(); 
+//         return "Please don't navigate away, you will leave the current game";
+//    }
+//    e.returnValue = '';
 //});
 
 function debug() {

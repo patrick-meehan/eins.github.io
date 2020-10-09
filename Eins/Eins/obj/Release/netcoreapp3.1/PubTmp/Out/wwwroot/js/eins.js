@@ -21,13 +21,11 @@ var tablelocked = false;
 document.getElementById("newbutton").disabled = true;
 
 //window.addEventListener("beforeunload", function (e) {
-//    e.preventDefault();
-//    e.returnValue = '';
 //    if (tablelocked == true) {
+//        e.preventDefault(); 
 //         return "Please don't navigate away, you will leave the current game";
 //    }
-
-
+//    e.returnValue = '';
 //});
 
 function debug() {
